@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/frontend.html.twig' %}
 
 {% block subtitle %} | Create a new post{% endblock %}
 
 {% block body %}
     <h1>Create new post</h1>
     {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    <a class="btn btn-secondary" href="{{ path('backend_post_list') }}">back to list</a>
 {% endblock %}

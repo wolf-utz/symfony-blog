@@ -1,22 +1,23 @@
 {
-    "name": "app",
-    "authors": [
-        "Wolf Utz <wpu@hotmail.de>"
-    ],
-    "description": "",
-    "main": "bower.json",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "assets/vendor/",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "jquery": "^3.2.1",
-        "bootstrap": "v4.0.0",
-        "font-awesome": "Font-Awesome#^4.7.0"
-    }
+  "name": "app",
+  "authors": [
+    "Wolf Utz <wpu@hotmail.de>"
+  ],
+  "description": "",
+  "main": "bower.json",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "bootstrap": "v4.0.0",
+    "font-awesome": "Font-Awesome#^4.7.0",
+    "fancybox": "^3.2.5"
+  }
 }

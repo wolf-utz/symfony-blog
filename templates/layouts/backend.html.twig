@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}
+                OmegaCode Blog - Backend{% block subtitle %}{% endblock %}
+            {% endblock %}
+        </title>
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/fancybox/dist/jquery.fancybox.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/backend.css') }}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="layout layout-backend">
+        <div class="container">
+            <h1>{% block h1 %}{% endblock %}</h1>
+            <div class="card">
+                <div class="card-body">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('vendor/fancybox/dist/jquery.fancybox.min.js') }}"></script>
+        <script src="{{ asset('build/backend.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

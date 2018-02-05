@@ -16,3 +16,5 @@
 ###< symfony/phpunit-bridge ###
 /public/vendor/
 /assets/vendor/
+/._.DS_Store
+/plugins/

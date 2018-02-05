@@ -1,0 +1,3 @@
+#route1:
+#    path:     /foo
+#    defaults: { _controller: 'Plugins\Controller\CategoryController::indexAction' }

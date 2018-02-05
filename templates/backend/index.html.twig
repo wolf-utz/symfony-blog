@@ -1,6 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/backend.html.twig' %}
+
+{% block h1 %}
+    Welcome to the Backend
+{% endblock %}
 
 {% block body %}
-    <h1>Welcome to the Backend</h1>
+    <div class="row">
+    {% for module in modules %}
+        <div class="col-sm-4 module-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ module.title }}</h4>
+                    <p class="card-text">{{ module.description }}</p>
+                    <a class="btn btn-primary btn-block" data-fancybox="iframe" data-src="{{ path(module.route) }}" data-type="iframe" href="javascript:;">
+                        Load {{ module.title }} module
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
 
+{% block javascripts %}
+<script>
+    (function(){
+        $("[data-fancybox]").fancybox({
+            buttons : [
+                'close'
+            ],
+            clickSlide: false,
+            clickOutside: false,
+            dblclickContent : false,
+            dblclickSlide   : false,
+            dblclickOutside : false,
+            touch:false
+        });
+    })();
+</script>
 {% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'layouts/frontend.html.twig' %}
+
+{% block body %}
+    <h2>Manage your posts</h2>
+    <a class="btn btn-primary" href="{{ path('backend_post_new') }}">Create a new post</a>
+    <br /><br />
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>Record name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="record actions">
+                                <button type="button" class="btn btn-info">Show/Hide</button>
+                                <button type="button" class="btn btn-info">Edit</button>
+                                <a href="{{ path('backend_post_show', {'id': post.id}) }}" class="btn btn-secondary">Show</a>
+                                <button type="button" class="btn btn-danger">delete</button>
+                            </div>
+                        </td>
+                        <td>
+                            {{ post.title }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
