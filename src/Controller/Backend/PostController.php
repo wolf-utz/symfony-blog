@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Backend;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -94,7 +95,17 @@ class PostController extends Controller
         $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $tag = New Tag();
+
+            $tag->setTitle("Test tag");
+
+            /** @var Post $post */
             $post = $form->getData();
+
+
+            $post->getTags()->add($tag);
+
             $this->postRepository->add($post);
             $this->addFlash(
                 'info',
@@ -105,5 +116,26 @@ class PostController extends Controller
         } else {
             return $this->redirectToRoute('backend_post_new', ['request' => $request]);
         }
+    }
+
+    /**
+     * @Route("/posts/toggle-hidden-state/{id}", name="backend_post_toggle_hidden_state")
+     * @ParamConverter("post", class="App\Entity\Post")
+     *
+     * @param Post $post
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \App\Exception\WrongEntityClassException
+     */
+    public function toggleHiddenState(Post $post)
+    {
+        $post->setHidden(!$post->isHidden());
+        $this->postRepository->update($post);
+        $this->addFlash(
+            'info',
+            'Successfully toggled hidden state of post '.$post->getTitle().'!'
+        );
+
+        return $this->redirectToRoute('backend_post_list', ['_fragment' => 'post-'.$post->getId()]);
     }
 }

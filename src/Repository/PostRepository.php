@@ -32,4 +32,18 @@ class PostRepository extends AbstractRespoitory
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return mixed
+     */
+    public function findAllVisible()
+    {
+        $queryBuilder = $this->createQueryBuilder('post');
+
+        return $queryBuilder->where($queryBuilder->expr()->eq('post.hidden', ':flag'))
+            ->orderBy('post.title', 'ASC')
+            ->setParameter('flag', false)
+            ->getQuery()
+            ->getResult();
+    }
 }

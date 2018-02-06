@@ -4,6 +4,6 @@
 
 {% block body %}
     <h1>{{ post.title }}</h1>
-    <p>{{ post.body }}</p>
+    <p>{{ post.body|raw }}</p>
     <a class="btn btn-secondary" href="{{ path('backend_post_list') }}">back to list</a>
 {% endblock %}

@@ -14,13 +14,19 @@
             </thead>
             <tbody>
                 {% for post in posts %}
-                    <tr>
-                        <td>
+                    <tr class="{% if post.isHidden() %}table-warning{% endif %}">
+                        <td id="post-{{ post.id }}">
                             <div class="btn-group" role="group" aria-label="record actions">
-                                <button type="button" class="btn btn-info">Show/Hide</button>
-                                <button type="button" class="btn btn-info">Edit</button>
+                                <a href="{{ path('backend_post_toggle_hidden_state', {'id': post.id}) }}" class="btn btn-info">
+                                    {% if post.isHidden() %}
+                                        <i class="fa fa-eye-slash"></i>
+                                    {% else %}
+                                        <i class="fa fa-eye"></i>
+                                    {% endif %}
+                                </a>
+                                <button type="button" class="btn btn-info"><i class="fa fa-pencil"></i></button>
                                 <a href="{{ path('backend_post_show', {'id': post.id}) }}" class="btn btn-secondary">Show</a>
-                                <button type="button" class="btn btn-danger">delete</button>
+                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                             </div>
                         </td>
                         <td>

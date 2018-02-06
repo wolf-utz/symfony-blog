@@ -38,7 +38,7 @@ class PostController extends Controller
      */
     public function list()
     {
-        $posts = $this->postRepository->findAll();
+        $posts = $this->postRepository->findAllVisible();
 
         return $this->render('post/list.html.twig', [
             'posts' => $posts,

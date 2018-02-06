@@ -54,4 +54,14 @@ class AbstractRespoitory extends ServiceEntityRepository
         $this->em->persist($object);
         $this->em->flush();
     }
+
+    /**
+     * @param $object
+     *
+     * @throws WrongEntityClassException
+     */
+    public function update($object)
+    {
+        $this->add($object);
+    }
 }
