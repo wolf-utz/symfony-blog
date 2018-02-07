@@ -2,6 +2,12 @@
 
 {% block subtitle %} | {{ post.title }}{% endblock %}
 
+{% block header_heading %}
+    <h1>{{ post.title }}</h1>
+    <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+    <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span>
+{% endblock %}
+
 {% block body %}
     <h1>{{ post.title }}</h1>
     <p>{{ post.body|raw }}</p>

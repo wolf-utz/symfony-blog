@@ -9,9 +9,10 @@ Encore
 
     // will create public/build/app.js and public/build/app.css
     .addEntry('backend', './assets/backend/js/backend.js')
-
+    .addEntry('frontend', './assets/backend/js/frontend.js')
     // allow sass/scss files to be processed
     .enableSassLoader()
+    .enableLessLoader()
 
     // allow legacy applications to use $/jQuery as a global variable
     .autoProvidejQuery()

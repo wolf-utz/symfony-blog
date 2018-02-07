@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
         <title>
             {% block title %}
                 OmegaCode Blog{% block subtitle %}{% endblock %}
@@ -9,21 +13,95 @@
         </title>
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ asset('build/frontend.css') }}">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <div class="container">
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
-                        {{ message }}
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+            <a class="navbar-brand" href="#">OmegaCode</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <span class="mr-auto"></span>
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Sample Page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Another sample page</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Header -->
+        {% block header %}
+            <header class="intro-header" style="background-image: url({{ asset('images/home-office-bg.jpg') }})">
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="col-lg-8 col-md-10">
+                            <div class="site-heading">
+                                {% block header_heading %}
+                                    <h1>Clean Blog</h1>
+                                    <hr class="small">
+                                    <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
+                                {% endblock %}
+                            </div>
+                        </div>
                     </div>
-                {% endfor %}
-            {% endfor %}
-            {% block body %}{% endblock %}
+                </div>
+            </header>
+        {% endblock %}
+        <!-- Content -->
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-8 col-md-10">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
         </div>
+        <hr>
+        <!-- Footer -->
+        {% block footer %}
+            <footer>
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="col-lg-8 col-md-10">
+                            <ul class="list-inline text-center">
+                                <li>
+                                    <a href="#">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                    </a>ç
+                                </li>
+                            </ul>
+                            <p class="copyright text-muted">Copyright &copy; Your Website 2016</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}
         <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('build/frontend.js') }}">
         {% block javascripts %}{% endblock %}
     </body>
 </html>
