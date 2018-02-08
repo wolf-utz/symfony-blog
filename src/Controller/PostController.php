@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Post;
-use App\Form\PostType;
 use App\Repository\PostRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class PostController.

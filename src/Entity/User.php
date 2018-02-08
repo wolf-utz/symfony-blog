@@ -24,12 +24,19 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
     protected $username = '';
 
     /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=64)
      *
      * @var string
      */
     protected $password = '';
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     *
+     * @var string
+     */
+    private $plainPassword = '';
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
@@ -110,6 +117,22 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
     }
 
     /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /**
      * String representation of object.
      *
      * @see http://php.net/manual/en/serializable.serialize.php
@@ -167,7 +190,7 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return ['ROLE_ADMIN'];
     }
 
     /**
@@ -179,7 +202,7 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
      */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
 
     /**
@@ -190,7 +213,7 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
      */
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        $this->plainPassword = '';
     }
 
     /**
@@ -206,6 +229,7 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
     public function isAccountNonExpired()
     {
         // TODO: Implement isAccountNonExpired() method.
+        return true;
     }
 
     /**
@@ -221,6 +245,7 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
     public function isAccountNonLocked()
     {
         // TODO: Implement isAccountNonLocked() method.
+        return true;
     }
 
     /**
@@ -236,6 +261,7 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
     public function isCredentialsNonExpired()
     {
         // TODO: Implement isCredentialsNonExpired() method.
+        return true;
     }
 
     /**
@@ -250,6 +276,6 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
      */
     public function isEnabled()
     {
-        // TODO: Implement isEnabled() method.
+        return $this->isActive;
     }
 }
