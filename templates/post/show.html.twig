@@ -4,8 +4,15 @@
 
 {% block header_heading %}
     <h1>{{ post.title }}</h1>
-    <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
-    <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span>
+    <p class="subheading">
+        Posted by <strong>{{ post.user.username }}</strong> on {{ post.created|date('F j, Y') }}
+        <br/>
+        <small>Last edited on {{ post.lastUpdated|date('F j, Y') }}</small>
+        <br/><br/>
+        {% for tag in post.tags %}
+            <span class="badge badge-primary">{{ tag.title }}</span>
+        {% endfor %}
+    </p>
 {% endblock %}
 
 {% block body %}

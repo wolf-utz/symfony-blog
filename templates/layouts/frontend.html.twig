@@ -27,7 +27,7 @@
     <body>
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
-            <a class="navbar-brand" href="#">OmegaCode</a>
+            <a class="navbar-brand" href="/">OmegaCode</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -101,7 +101,7 @@
         {% endblock %}
         <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        <link rel="stylesheet" href="{{ asset('build/frontend.js') }}">
+        <script src="{{ asset('build/frontend.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

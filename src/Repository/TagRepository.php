@@ -27,7 +27,7 @@ class TagRepository extends AbstractRespoitory
     /**
      * @return array|mixed
      */
-    public function findAll()
+    public function findAllEvenHidden()
     {
         return $this->createQueryBuilder('tag')
             ->orderBy('tag.title', 'ASC')

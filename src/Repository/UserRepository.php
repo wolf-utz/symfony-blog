@@ -27,7 +27,7 @@ class UserRepository extends AbstractRespoitory
     /**
      * @return array|mixed
      */
-    public function findAll()
+    public function findAllEvenHidden()
     {
         return $this->createQueryBuilder('User')
             ->orderBy('User.title', 'ASC')

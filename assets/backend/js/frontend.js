@@ -2,43 +2,98 @@ require('../css/frontend.less');
 
 var $ = require('jquery');
 
-// Floating label headings for the contact form
-$(function() {
-    $("body").on("input propertychange", ".floating-label-form-group", function(e) {
-        $(this).toggleClass("floating-label-form-group-with-value", !!$(e.target).val());
-    }).on("focus", ".floating-label-form-group", function() {
-        $(this).addClass("floating-label-form-group-with-focus");
-    }).on("blur", ".floating-label-form-group", function() {
-        $(this).removeClass("floating-label-form-group-with-focus");
-    });
-});
-
-// Navigation Scripts to Show Header on Scroll-Up
-$(document).ready(function() {
-    var MQL = 1170;
-
-    //primary navigation slide-in effect
-    if ($(window).width() > MQL) {
-        var headerHeight = $('.navbar-custom').height();
-        $(window).on('scroll', {
-                previousTop: 0
-            },
-            function() {
-                var currentTop = $(window).scrollTop();
-                //check if user is scrolling up
-                if (currentTop < this.previousTop) {
-                    //if scrolling up...
-                    if (currentTop > 0 && $('.navbar-custom').hasClass('is-fixed')) {
-                        $('.navbar-custom').addClass('is-visible');
-                    } else {
-                        $('.navbar-custom').removeClass('is-visible is-fixed');
-                    }
-                } else if (currentTop > this.previousTop) {
-                    //if scrolling down...
-                    $('.navbar-custom').removeClass('is-visible');
-                    if (currentTop > headerHeight && !$('.navbar-custom').hasClass('is-fixed')) $('.navbar-custom').addClass('is-fixed');
-                }
-                this.previousTop = currentTop;
-            });
+var noscripts = document.getElementsByClassName("noscript");
+if (noscripts.length > 0) {
+    for (var i = 0; i < noscripts.length; i++) {
+        noscripts[i].outerHTML = "";
+        delete noscripts[i];
     }
+}
+
+$(document).ready(function () {
+    var $newerPostsBtn = $("#newer-posts-btn");
+    var $olderPostsBtn = $("#older-posts-btn");
+    var $ajaxResultTarget = $('#posts-wrapper');
+    var $loadingSpinner = $("#loading-spinner");
+    $('#ajax-post-loader-controls').show();
+
+    /**
+     *
+     * @param url
+     * @param page
+     * @param maxPages
+     */
+    var getPostsAjax = function (url, page, maxPages) {
+        var animationDuration = 500;
+        $.get({
+            url: url + "/" + page,
+            success: function (result) {
+                $loadingSpinner.show();
+                $ajaxResultTarget.animate({opacity: 0}, animationDuration, function () {
+                    $ajaxResultTarget.html(result);
+                    refreshCurrentPageData(page);
+                    $loadingSpinner.hide();
+                    handleButtonVisibility(page, maxPages);
+                    $ajaxResultTarget.animate({opacity: 1}, animationDuration, function () {
+                        scrollTo('posts-wrapper');
+                    });
+                });
+            }
+        });
+    };
+
+    /**
+     *
+     * @param page
+     */
+    var refreshCurrentPageData = function (page) {
+        $newerPostsBtn.data('current-page', page);
+        $olderPostsBtn.data('current-page', page);
+
+    };
+
+    /**
+     *
+     * @param hash
+     */
+    var scrollTo = function (hash) {
+        location.hash = "#" + hash;
+    };
+    /**
+     *
+     * @param page
+     * @param maxPages
+     */
+    var handleButtonVisibility = function(page, maxPages)
+    {
+        if(page <= 1) {
+            $newerPostsBtn.hide();
+        } else {
+            $newerPostsBtn.show();
+        }
+        if (page >= maxPages) {
+            $olderPostsBtn.hide();
+        } else {
+            $olderPostsBtn.show();
+        }
+    };
+
+    //
+    $newerPostsBtn.on("click", function () {
+        $btn = $(this);
+        var maxPages = $btn.data('max-pages');
+        var currentPage = $btn.data('current-page');
+        var url = $btn.data('ajax-url');
+        var nextpage = currentPage > 1 ? currentPage - 1 : 1;
+        getPostsAjax(url, nextpage, maxPages);
+    });
+    //
+    $olderPostsBtn.on("click", function () {
+        $btn = $(this);
+        var maxPages = $btn.data('max-pages');
+        var currentPage = $btn.data('current-page');
+        var url = $btn.data('ajax-url');
+        var nextpage = currentPage < maxPages ? currentPage + 1 : maxPages;
+        getPostsAjax(url, nextpage, maxPages);
+    });
 });

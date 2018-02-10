@@ -4,9 +4,13 @@
             {{ post.title }}
         </h2>
         <h3 class="post-subtitle">
-            {{ post.body }}
+            {{ post.body|striptags|truncate(60, true) }}
         </h3>
     </a>
-    <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
+    <p class="post-meta">
+        Posted by <strong>{{ post.user.username }}</strong> on {{ post.created|date('F j, Y') }}
+        <br/>
+        <small>Last edited on {{ post.lastUpdated|date('F j, Y') }}</small>
+    </p>
 </div>
 <hr>

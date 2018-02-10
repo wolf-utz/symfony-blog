@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Module {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/backend.css') }}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+        <div class="container-fluid">
+            <h1>{% block h1 %}{% endblock %}</h1>
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
+        <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('build/backend.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

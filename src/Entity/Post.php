@@ -46,17 +46,6 @@ class Post extends AbstractEntity
     private $tags;
 
     /**
-     * @ManyToMany(targetEntity="Category")
-     * @JoinTable(name="post_category_mm",
-     *      joinColumns={@JoinColumn(name="post_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="category_id", referencedColumnName="id")}
-     * )
-     *
-     * @var ArrayCollection<\App\Entity\Category>
-     */
-    private $categories;
-
-    /**
      * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -133,7 +122,7 @@ class Post extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getTags(): ArrayCollection
+    public function getTags()
     {
         return $this->tags;
     }
@@ -160,5 +149,21 @@ class Post extends AbstractEntity
     public function setCategories(ArrayCollection $categories): void
     {
         $this->categories = $categories;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user) : void
+    {
+        $this->user = $user;
     }
 }

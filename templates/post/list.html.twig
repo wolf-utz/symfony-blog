@@ -1,7 +1,64 @@
 {% extends 'layouts/frontend.html.twig' %}
 
 {% block body %}
-    {% for post in posts %}
-        {% include 'post/partials/teaser.html.twig' with {'post': post} %}
-    {% endfor %}
+
+
+    {# posts #}
+    <div id="posts-wrapper">
+       {% for post in posts %}
+            {% include 'post/partials/teaser.html.twig' with {'post': post} %}
+        {% endfor %}
+    </div>
+
+    {# ajax controls #}
+    <div id="ajax-post-loader-controls" class="row" style="display: none;">
+            <div class="col-4">
+                <button id="newer-posts-btn"
+                        class="pull-left btn btn-default"
+                        style="display: {{ currentPage > 1 ? 'block' : 'none' }};"
+                        data-ajax-url="{{ path('post_ajax_list') }}"
+                        data-current-page="{{ currentPage }}"
+                        data-max-pages="{{ maxPages }}">
+                    Newer posts
+                </button>
+            </div>
+            <div class="col-4">
+                {# loading spinner #}
+                <div class="text-center">
+                    <img id="loading-spinner" class="img img-responsive" style="display: none;"
+                         src="{{ asset('images/loading-spinner.gif') }}"
+                         width="80" height=80" />
+                </div>
+            </div>
+            <div class="col-4">
+                <button id="older-posts-btn"
+                        class="pull-right btn btn-default"
+                        style="display: {{ currentPage < maxPages ? 'block' : 'none' }};"
+                        data-ajax-url="{{ path('post_ajax_list') }}"
+                        data-current-page="{{ currentPage }}"
+                        data-max-pages="{{ maxPages }}">
+                    Older posts
+                </button>
+            </div>
+
+    </div>
+
+    {# pagination #}
+    <div class="noscript">
+        {% if maxPages > 1 %}
+            <ul class="pagination">
+                <li class="page-item {{ currentPage == 1 ? 'disabled' }}">
+                    <a class="page-link" href="{{ path('post_list', {'currentPage': currentPage-1 < 1 ? 1 : currentPage-1}) }}">«</a>
+                </li>
+                {% for i in 1..maxPages %}
+                    <li class="page-item {{ currentPage == i ? 'active' }}">
+                        <a class="page-link" href="{{ path('post_list', {'currentPage': i}) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                <li class="page-item {{ currentPage == maxPages ? 'disabled' }}">
+                    <a class="page-link" href="{{ path('post_list', {'currentPage': currentPage+1 <= maxPages ? currentPage+1 : currentPage}) }}">»</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}

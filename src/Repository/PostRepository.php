@@ -25,10 +25,10 @@ class PostRepository extends AbstractRespoitory
     /**
      * @return array|mixed
      */
-    public function findAll()
+    public function findAllEvenHidden()
     {
         return $this->createQueryBuilder('post')
-            ->orderBy('post.title', 'ASC')
+            ->orderBy('post.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -43,6 +43,23 @@ class PostRepository extends AbstractRespoitory
         return $queryBuilder->where($queryBuilder->expr()->eq('post.hidden', ':flag'))
             ->orderBy('post.title', 'ASC')
             ->setParameter('flag', false)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param int $limit
+     *
+     * @return mixed
+     */
+    public function findRecent($limit = 5)
+    {
+        $queryBuilder = $this->createQueryBuilder('post');
+
+        return $queryBuilder->where($queryBuilder->expr()->eq('post.hidden', ':flag'))
+            ->orderBy('post.created', 'DESC')
+            ->setParameter('flag', false)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

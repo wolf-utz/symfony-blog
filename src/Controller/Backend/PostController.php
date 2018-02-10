@@ -6,6 +6,7 @@ namespace App\Controller\Backend;
 
 use App\Entity\Post;
 use App\Entity\Tag;
+use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +40,7 @@ class PostController extends Controller
      */
     public function list()
     {
-        $posts = $this->postRepository->findAll();
+        $posts = $this->postRepository->findAllEvenHidden();
 
         return $this->render('backend/post/list.html.twig', [
             'posts' => $posts,
@@ -95,17 +96,11 @@ class PostController extends Controller
         $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $tag = New Tag();
-
-            $tag->setTitle("Test tag");
-
+            /** @var User $user */
+            $user = $this->getUser();
             /** @var Post $post */
             $post = $form->getData();
-
-
-            $post->getTags()->add($tag);
-
+            $post->setUser($user);
             $this->postRepository->add($post);
             $this->addFlash(
                 'info',

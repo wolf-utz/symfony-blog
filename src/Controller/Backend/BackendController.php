@@ -19,7 +19,12 @@ class BackendController extends Controller
     public function indexAction()
     {
         $modules = [
-            new Module("Posts", "Manage your posts here.", "newspaper", "backend_post_list")
+            new Module("Posts", "Manage your posts here.", "pencil-square-o", "backend_post_list"),
+            new Module("Comments", "Manage the comments", "comment", "backend_configuration"),
+            new Module("Tags", "Manage your tags here", "tag", "backend_configuration"),
+            new Module("Users", "Manage your users here", "users", "backend_configuration"),
+            new Module("Statistics", "Overview general statistics", "bar-chart", "backend_configuration"),
+            new Module("Configurations", "Configure the system", "cogs", "backend_configuration"),
         ];
 
         return $this->render('backend/index.html.twig', [
