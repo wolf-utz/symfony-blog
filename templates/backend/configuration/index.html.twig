@@ -1,0 +1,13 @@
+{% extends 'layouts/module.html.twig' %}
+
+{% block body %}
+    <h2>Configure your blog</h2>
+    <form name="configuration" action="{{ path('backend_configuration_write') }}" method="post">
+        {% for key, value in configuration %}
+            <label for="{{ key }}">{{ key|upper }}</label>
+            <input id="{{ key }}" type="text" value="{{ value|e }}" name="{{ key }}" class="form-control" />
+        {% endfor %}
+        <br class="space" />
+        <button type="submit" class="btn btn-primary btn-block">Save</button>
+    </form>
+{% endblock %}

@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>
             {% block title %}
-                OmegaCode Blog - Backend{% block subtitle %}{% endblock %}
+                {{ configuration().title }} - {% block subtitle %}Backend{% endblock %}
             {% endblock %}
         </title>
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">

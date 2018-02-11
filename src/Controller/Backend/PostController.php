@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Backend;
 
 use App\Entity\Post;
-use App\Entity\Tag;
 use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
@@ -85,13 +84,12 @@ class PostController extends Controller
      * @Route("/backend/post/create", name="backend_post_create")
      *
      * @param Request                $request
-     * @param EntityManagerInterface $em
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \App\Exception\WrongEntityClassException
      */
-    public function create(Request $request, EntityManagerInterface $em)
+    public function create(Request $request)
     {
         $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
@@ -120,6 +118,7 @@ class PostController extends Controller
      * @param Post $post
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws \App\Exception\WrongEntityClassException
      */
     public function toggleHiddenState(Post $post)

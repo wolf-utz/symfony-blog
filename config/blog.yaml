@@ -1,4 +1,7 @@
-blog:
-    title:
-    name:
-    description:
+title: 'A Blog About Extbase'
+description: 'This is blog is all about php develoment using the framwork extbase in the context of the well known CMS TYPO3.'
+vendor: 'Omega Code'
+email: omega-code@gmail.com
+social_twitter_link: 'https://twitter.com/0megaCode'
+social_facebook_link: ''
+social_xing_link: ''

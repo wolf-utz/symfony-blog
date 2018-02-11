@@ -8,7 +8,7 @@
         <meta name="author" content="">
         <title>
             {% block title %}
-                OmegaCode Blog{% block subtitle %}{% endblock %}
+                {{ configuration().title }} {% block subtitle %}{% endblock %}
             {% endblock %}
         </title>
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
@@ -27,7 +27,7 @@
     <body>
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
-            <a class="navbar-brand" href="/">OmegaCode</a>
+            <a class="navbar-brand" href="/">{{ configuration().title }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -51,9 +51,9 @@
                         <div class="col-lg-8 col-md-10">
                             <div class="site-heading">
                                 {% block header_heading %}
-                                    <h1>Clean Blog</h1>
+                                    <h1>{{ configuration().title }}</h1>
                                     <hr class="small">
-                                    <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
+                                    <span class="subheading">{{ configuration().description }}</span>
                                 {% endblock %}
                             </div>
                         </div>
@@ -67,9 +67,7 @@
                 <div class="col-lg-8 col-md-10">
                     {% for label, messages in app.flashes %}
                         {% for message in messages %}
-                            <div class="alert alert-{{ label }}">
-                                {{ message }}
-                            </div>
+                            {{ alert(message, label) }}
                         {% endfor %}
                     {% endfor %}
                     {% block body %}{% endblock %}
@@ -85,7 +83,7 @@
                         <div class="col-lg-8 col-md-10">
                             <ul class="list-inline text-center">
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ configuration().social_twitter_link }}" target="_blank">
                                         <span class="fa-stack fa-lg">
                                             <i class="fa fa-circle fa-stack-2x"></i>
                                             <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
@@ -93,7 +91,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <p class="copyright text-muted">Copyright &copy; Your Website 2016</p>
+                            <p class="copyright text-muted">Copyright &copy; {{ configuration().vendor }} 2016</p>
                         </div>
                     </div>
                 </div>
