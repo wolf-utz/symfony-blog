@@ -130,25 +130,9 @@ class Post extends AbstractEntity
     /**
      * @param ArrayCollection $tags
      */
-    public function setTags(ArrayCollection $tags): void
+    public function setTags(ArrayCollection $tags)
     {
         $this->tags = $tags;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getCategories(): ArrayCollection
-    {
-        return $this->categories;
-    }
-
-    /**
-     * @param ArrayCollection $categories
-     */
-    public function setCategories(ArrayCollection $categories): void
-    {
-        $this->categories = $categories;
     }
 
     /**
@@ -162,7 +146,7 @@ class Post extends AbstractEntity
     /**
      * @param mixed $user
      */
-    public function setUser($user) : void
+    public function setUser($user)
     {
         $this->user = $user;
     }

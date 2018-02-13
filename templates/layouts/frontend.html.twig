@@ -34,11 +34,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <span class="mr-auto"></span>
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Sample Page</a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Another sample page</a>
+                        <a class="nav-link" href="{{ path('contact_new') }}">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -67,7 +64,7 @@
                 <div class="col-lg-8 col-md-10">
                     {% for label, messages in app.flashes %}
                         {% for message in messages %}
-                            {{ alert(message, label) }}
+                            {{ alert(message, label)|raw }}
                         {% endfor %}
                     {% endfor %}
                     {% block body %}{% endblock %}

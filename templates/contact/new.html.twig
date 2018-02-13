@@ -1,0 +1,47 @@
+{% extends 'layouts/frontend.html.twig' %}
+
+{% block subtitle %} | Contact{% endblock %}
+
+{% block body %}
+    <h1>Contact</h1>
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-6">
+                {{ form_label(form.name) }}
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="col-6">
+                {{ form_label(form.email) }}
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email) }}
+            </div>
+        </div>
+        <div class="">
+            {{ form_label(form.note) }}
+            {{ form_errors(form.note) }}
+            {{ form_widget(form.note) }}
+        </div>
+        <br class="space" />
+        {# Render CSRF token etc .#}
+        <div style="display:none">
+            {{ form_rest(form) }}
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                {# Google reCAPTCHA #}
+                <div class="g-recaptcha" data-sitekey="{{ configuration().google_recaptcha_site_key }}"></div>
+            </div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-paper-plane"></i> Submit
+                </button>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
