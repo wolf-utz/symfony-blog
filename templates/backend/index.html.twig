@@ -9,9 +9,8 @@
     {% for module in modules %}
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 module-wrapper">
             <div class="card">
-                <div class="card-body">
+                <div class="card-block">
                     <i class="fa fa-{{ module.icon }} fa-module-icon pull-right" aria-hidden="true"></i>
-
                     <h4 class="card-title">{{ module.title }}</h4>
                     <p class="card-text">{{ module.description }}</p>
                     <a class="btn btn-primary btn-block" data-fancybox="iframe" data-src="{{ path(module.route) }}" data-type="iframe" href="javascript:;">
@@ -22,24 +21,4 @@
         </div>
     {% endfor %}
     </div>
-{% endblock %}
-
-{% block javascripts %}
-<script>
-    (function(){
-        $("[data-fancybox]").fancybox({
-            buttons : [
-                'close'
-            ],
-            arrows: false,
-            infobar : false,
-            clickSlide: false,
-            clickOutside: false,
-            dblclickContent : false,
-            dblclickSlide   : false,
-            dblclickOutside : false,
-            touch:false
-        });
-    })();
-</script>
 {% endblock %}

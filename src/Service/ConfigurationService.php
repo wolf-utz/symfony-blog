@@ -40,7 +40,6 @@ class ConfigurationService
      */
     public function updateConfiguration(array $newConfiguration)
     {
-        \Kint::dump($newConfiguration);
         $configuration = $this->getConfiguration();
         foreach ($newConfiguration as $key => $value) {
             if(!key_exists($key, $configuration)) {
