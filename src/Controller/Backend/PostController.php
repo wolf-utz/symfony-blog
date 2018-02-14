@@ -7,7 +7,7 @@ namespace App\Controller\Backend;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
-use App\Repository\PostRepository;
+use App\Repository\PaginationPostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -19,29 +19,38 @@ use Symfony\Component\HttpFoundation\Request;
 class PostController extends Controller
 {
     /**
-     * @var PostRepository|null
+     * @var PaginationPostRepository|null
      */
-    protected $postRepository = null;
+    protected $paginationPostRepository = null;
 
     /**
      * PostController constructor.
      *
-     * @param PostRepository $postRepository
+     * @param PaginationPostRepository $postRepository
      */
-    public function __construct(PostRepository $postRepository)
+    public function __construct(PaginationPostRepository $postRepository)
     {
-        $this->postRepository = $postRepository;
+        $this->paginationPostRepository = $postRepository;
     }
 
     /**
-     * @Route("/backend/posts", name="backend_post_list")
+     * @Route("/backend/posts/{currentPage}", name="backend_post_list")
+     *
+     * @param int $currentPage
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function list()
+    public function list($currentPage = 1)
     {
-        $posts = $this->postRepository->findAllEvenHidden();
+        $limit = 10; // TODO: get this by configuration.
+        $posts = $this->paginationPostRepository->findAllPaginated($currentPage, $limit);
+        $maxPages = ceil($posts->count() / $limit);
 
         return $this->render('backend/post/list.html.twig', [
             'posts' => $posts,
+            'currentPage' => $currentPage,
+            'limit' => $limit,
+            'maxPages' => $maxPages,
         ]);
     }
 
@@ -82,7 +91,7 @@ class PostController extends Controller
     /**
      * @Route("/backend/post/create", name="backend_post_create")
      *
-     * @param Request                $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -98,7 +107,7 @@ class PostController extends Controller
             /** @var Post $post */
             $post = $form->getData();
             $post->setUser($user);
-            $this->postRepository->add($post);
+            $this->paginationPostRepository->add($post);
             $this->addFlash(
                 'info',
                 'Successfully created new post!'
@@ -111,24 +120,48 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/posts/toggle-hidden-state/{id}", name="backend_post_toggle_hidden_state")
+     * @Route("/backend/post/delete/{id}", name="backend_post_delete")
      * @ParamConverter("post", class="App\Entity\Post")
      *
-     * @param Post $post
+     * @param Post    $post
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @throws \App\Exception\WrongEntityClassException
      */
-    public function toggleHiddenState(Post $post)
+    public function delete(Post $post, Request $request)
     {
+        $currentPage = $request->get('currentPage');
+        $this->paginationPostRepository->remove($post);
+        $this->addFlash(
+            'info',
+            'Successfully removed post '.$post->getTitle().'!'
+        );
+
+        return $this->redirectToRoute('backend_post_list', ['currentPage' => $currentPage, '_fragment' => 'post-'.$post->getId()]);
+    }
+
+    /**
+     * @Route("/backend/post/toggle-hidden-state/{id}", name="backend_post_toggle_hidden_state")
+     * @ParamConverter("post", class="App\Entity\Post")
+     *
+     * @param Post    $post
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function toggleHiddenState(Post $post, Request $request)
+    {
+        $currentPage = $request->get('currentPage');
         $post->setHidden(!$post->isHidden());
-        $this->postRepository->update($post);
+        $this->paginationPostRepository->update();
         $this->addFlash(
             'info',
             'Successfully toggled hidden state of post '.$post->getTitle().'!'
         );
 
-        return $this->redirectToRoute('backend_post_list', ['_fragment' => 'post-'.$post->getId()]);
+        return $this->redirectToRoute('backend_post_list', ['currentPage' => $currentPage, '_fragment' => 'post-'.$post->getId()]);
     }
 }

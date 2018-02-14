@@ -4,37 +4,79 @@
     <h2>Manage your posts</h2>
     <a class="btn btn-primary" href="{{ path('backend_post_new') }}">Create a new post</a>
     <br /><br />
+    {% if maxPages > 1 %}
+        <ul class="pagination">
+            <li class="page-item {{ currentPage == 1 ? 'disabled' }}">
+                <a class="page-link" href="{{ path('backend_post_list', {'currentPage': currentPage-1 < 1 ? 1 : currentPage-1}) }}">«</a>
+            </li>
+            {% for i in 1..maxPages %}
+                <li class="page-item {{ currentPage == i ? 'active' }}">
+                    <a class="page-link" href="{{ path('backend_post_list', {'currentPage': i}) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {{ currentPage == maxPages ? 'disabled' }}">
+                <a class="page-link" href="{{ path('backend_post_list', {'currentPage': currentPage+1 <= maxPages ? currentPage+1 : currentPage}) }}">»</a>
+            </li>
+        </ul>
+    {% endif %}
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
+        <table class="table table-bordered table-hover table-condensed">
             <thead>
                 <tr>
                     <th>Actions</th>
-                    <th>Record name</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>User</th>
                 </tr>
             </thead>
             <tbody>
                 {% for post in posts %}
-                    <tr class="{% if post.isHidden() %}table-warning{% endif %}">
+                    <tr class="{% if post.isHidden() %}table-danger{% endif %}">
                         <td id="post-{{ post.id }}">
                             <div class="btn-group" role="group" aria-label="record actions">
-                                <a href="{{ path('backend_post_toggle_hidden_state', {'id': post.id}) }}" class="btn btn-info">
+                                <a href="{{ path('backend_post_toggle_hidden_state', {'id': post.id, 'currentPage': currentPage}) }}"
+                                   class="btn btn-secondary">
                                     {% if post.isHidden() %}
                                         <i class="fa fa-eye-slash"></i>
                                     {% else %}
                                         <i class="fa fa-eye"></i>
                                     {% endif %}
                                 </a>
-                                <button type="button" class="btn btn-info"><i class="fa fa-pencil"></i></button>
+                                <button type="button" class="btn btn-secondary"><i class="fa fa-pencil"></i></button>
                                 <a href="{{ path('post_show', {'slug': post.slug}) }}" class="btn btn-secondary">Show</a>
-                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                <a  href="{{ path('backend_post_delete', {'id': post.id, 'currentPage': currentPage}) }}"
+                                    onclick="return confirm('Really delete the following post?\n\n{{ post.title }}');"
+                                    class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </div>
                         </td>
-                        <td>
-                            {{ post.title }}
-                        </td>
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.created|date('m-d-Y | H:i') }}</td>
+                        <td>{{ post.user.username }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

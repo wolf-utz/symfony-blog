@@ -47,7 +47,7 @@ class AbstractRespoitory extends ServiceEntityRepository
     {
         if(get_class($object) !== $this->class) {
             throw new WrongEntityClassException(
-                "The given object is not of type ".$this->class." this repository manges. The given object is of type: ".get_class($object),
+                "The given object is not of type ".$this->class." this repository manages. The given object is of type: ".get_class($object),
                 1517768742
             );
         }
@@ -60,8 +60,22 @@ class AbstractRespoitory extends ServiceEntityRepository
      *
      * @throws WrongEntityClassException
      */
-    public function update($object)
+    public function remove($object)
     {
-        $this->add($object);
+        if(get_class($object) !== $this->class) {
+            throw new WrongEntityClassException(
+                "The given object is not of type ".$this->class." this repository manages. The given object is of type: ".get_class($object),
+                1517768742
+            );
+        }
+        $this->em->remove($object);
+        $this->em->flush();
+    }
+
+    /**
+     */
+    public function update()
+    {
+        $this->em->flush();
     }
 }

@@ -28,7 +28,7 @@
 namespace App\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -54,20 +54,38 @@ class PaginationPostRepository extends PostRepository
      *
      * @return mixed
      */
-    public function findAllVisiblePaginated($currentPage = 1, $limit = 5)
+    public function findAllPaginated($currentPage = 1, $limit = 5)
     {
-        /** @var Query $query */
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.created', 'DESC')
-            ->getQuery();
+        /** @var QueryBuilder $query */
+        $query = $this->createQueryBuilder('p');
+        $query->orderBy('p.created', 'DESC')
+              ->getQuery();
 
         return $this->paginate($query, $currentPage, $limit);
     }
 
     /**
-     * @param Query $dql
-     * @param int   $page
-     * @param int   $limit
+     * @param int $currentPage
+     * @param int $limit
+     *
+     * @return mixed
+     */
+    public function findAllVisiblePaginated($currentPage = 1, $limit = 5)
+    {
+        /** @var QueryBuilder $query */
+        $query = $this->createQueryBuilder('p');
+        $query->where($query->expr()->eq('p.hidden', ':flag'))
+              ->orderBy('p.created', 'DESC')
+              ->setParameter('flag', false)
+              ->getQuery();
+
+        return $this->paginate($query, $currentPage, $limit);
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param int          $page
+     * @param int          $limit
      *
      * @return Paginator
      */

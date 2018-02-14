@@ -19,7 +19,7 @@ class PostController extends Controller
     /**
      * @var PaginationPostRepository|null
      */
-    protected $repo = null;
+    protected $paginationPostRepository = null;
 
     /**
      * PostController constructor.
@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function __construct(PaginationPostRepository $repo)
     {
-        $this->repo = $repo;
+        $this->paginationPostRepository = $repo;
     }
 
     /**
@@ -42,7 +42,7 @@ class PostController extends Controller
     {
         $currentPage = $request->query->get('currentPage') > 0 ? $request->query->get('currentPage') : 1;
         $limit = 3; // TODO: get this by configuration.
-        $posts = $this->repo->findAllVisiblePaginated($currentPage, $limit);
+        $posts = $this->paginationPostRepository->findAllVisiblePaginated($currentPage, $limit);
         $maxPages = ceil($posts->count() / $limit);
 
         return $this->render('post/list.html.twig', [
@@ -63,7 +63,7 @@ class PostController extends Controller
     public function ajaxList(int $currentPage = 1)
     {
         $limit = 3; // TODO: get this by configuration.
-        $posts = $this->repo->findAllVisiblePaginated($currentPage, $limit);
+        $posts = $this->paginationPostRepository->findAllVisiblePaginated($currentPage, $limit);
 
         return $this->render('post/ajax_list.html.twig', [
             'posts' => $posts,
