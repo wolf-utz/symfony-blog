@@ -68,6 +68,13 @@ class Post extends AbstractEntity
     private $user = null;
 
     /**
+     * @ORM\Column(type="boolean")
+     *
+     * @var bool
+     */
+    private $enableComments = true;
+
+    /**
      * Post constructor.
      */
     public function __construct()
@@ -181,5 +188,21 @@ class Post extends AbstractEntity
     public function setComments(ArrayCollection $comments)
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnableComments()
+    {
+        return $this->enableComments;
+    }
+
+    /**
+     * @param bool $enableComments
+     */
+    public function setEnableComments($enableComments)
+    {
+        $this->enableComments = $enableComments;
     }
 }

@@ -100,6 +100,7 @@ class CommentController extends Controller
             $this->commentRepository->add($comment);
             $response = $this->render('comment/ajax_comment.html.twig', [
                 'comment' => $comment,
+                'post' => $post,
             ]);
         } else {
             $response = new Response();

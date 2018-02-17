@@ -18,16 +18,18 @@
 {% block body %}
     <h2>{{ post.title }}</h2>
     <p>{{ post.body|raw }}</p>
-    <hr>
-    {% include 'comment/form.html.twig' %}
     <a href="javascript:;"
-       class="btn btn-secondary btn-sm float-lg-right reply"
+       class="btn btn-secondary btn-sm float-right reply"
        data-src="#reply-form"
        data-parent="0"
        data-target="#comment-hook">
         <i class="fa fa-reply" aria-hidden="true"></i>
         Reply to post
     </a>
+    <div class="clearfix"></div>
+    <hr>
+    {% include 'comment/form.html.twig' %}
+
     <div class="clearfix"></div>
     {# comments #}
     <ul class="comments">

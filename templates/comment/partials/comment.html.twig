@@ -1,28 +1,24 @@
-<div class="card" id="comment-{{ comment.id }}">
-    <div class="card-header">
-        {{ comment.commentator|e }} <small class="text-muted">{{ comment.created|date('F j, Y - H:i') }}</small>
-
-
-
+<div class="comment" id="comment-{{ comment.id }}" xmlns="http://www.w3.org/1999/html">
+    <p class="comment-heading">
+        <b>{{ comment.commentator|e }}</b>
+        <span class="comment-datetime">
+            <small class="text-muted">{{ comment.created|date('F j, Y - H:i') }}</small>
+        </span>
+    </p>
+    <div class="comment-body">
+        {{ comment.body|e }}
         {% if is_granted('ROLE_ADMIN') %}
-            <a class="btn btn-danger float-right" href="{{ path('comment_remove', {'post': post.id, 'comment': comment.id}) }}"
+            <a class="float-right delete" href="{{ path('comment_remove', {'post': post.id, 'comment': comment.id}) }}"
                onclick="return confirm('Do you really want to delete this comment?');">
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
         {% endif %}
-
-
-    </div>
-    <div class="card-block">
-        {{ comment.body|e }}
-        <hr />
         <a href="javascript:;"
-           class="btn btn-secondary btn-sm float-lg-right reply"
+           class="float-right reply"
            data-src="#reply-form"
            data-parent="{{ comment.id }}"
            data-target="#comment-{{ comment.id }}">
             <i class="fa fa-reply" aria-hidden="true"></i>
-            Reply
         </a>
     </div>
 </div>

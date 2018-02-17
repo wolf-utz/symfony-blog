@@ -1,4 +1,9 @@
 <div id="reply-form" class="comment-form" data-post="{{ post.id }}" data-parent="0" data-target="#comment-hook" style="display: none;" >
+    <b>You are replying to the following comment:</b>
+    <ul class="comments">
+        <li id="reply-comment"></li>
+    </ul>
+    <hr />
     {{ form_start(form, {'action': path('comment_create', {'post': post.id })}) }}
 
     {{ form_label(form.commentator) }}

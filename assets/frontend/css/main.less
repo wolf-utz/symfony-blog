@@ -354,13 +354,34 @@ ul.comments{
     margin:0;
     padding: 0;
     list-style: none;
-    .comment{
+    li{
         margin-bottom: 10px;
+    }
+    .comment{
+        border: 1px solid @box-heading;
+        border-radius: 3px;
+        background-color: @box-body;
+        p.comment-heading{
+            padding: 10px;
+            background-color: @box-heading;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        div.comment-body{
+            border-top: 1px solid @box-accent;
+            padding: 10px;
+        }
+        a.delete{
+            margin-left: 10px;
+        }
+        span.comment-datetime{
+            margin-left: 10px;
+        }
     }
     ul.sub-comments{
         margin-top: 10px;
         list-style: none;
-        & li.comment {
+        & li {
             &:before {
                 font-family: FontAwesome, serif;
                 content: "\f054";
@@ -371,6 +392,11 @@ ul.comments{
                 margin-top: 12px;
             }
         }
+    }
+}
+.fancybox-slide{
+    .comment a{
+        display: none;
     }
 }
 // Navigation styles.

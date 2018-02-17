@@ -1,4 +1,4 @@
-<li class="comment">
+<li>
     {% include 'comment/partials/comment.html.twig' with {'comment': comment, 'post': post} only %}
     {% if comment.children %}
         <ul class="sub-comments">
