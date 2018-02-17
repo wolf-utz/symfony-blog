@@ -1,5 +1,6 @@
 @import "variables.less";
 @import "mixins.less";
+@import "../../../node_modules/@fancyapps/fancybox/dist/jquery.fancybox.css";
 // Global Components
 body {
     font-size: 20px;
@@ -344,10 +345,34 @@ img::-moz-selection {
 body {
     -webkit-tap-highlight-color: @theme-primary;
 }
+// Post listing
 #ajax-post-loader-controls {
     min-height: 80px;
 }
-
+// Post show
+ul.comments{
+    margin:0;
+    padding: 0;
+    list-style: none;
+    .comment{
+        margin-bottom: 10px;
+    }
+    ul.sub-comments{
+        margin-top: 10px;
+        list-style: none;
+        & li.comment {
+            &:before {
+                font-family: FontAwesome, serif;
+                content: "\f054";
+                display: inline-block;
+                margin-left: -1.3em;
+                position: absolute;
+                width: 1.3em;
+                margin-top: 12px;
+            }
+        }
+    }
+}
 // Navigation styles.
 .navbar-custom {
     z-index: 10;

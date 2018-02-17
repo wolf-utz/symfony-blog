@@ -1,0 +1,28 @@
+<div class="card" id="comment-{{ comment.id }}">
+    <div class="card-header">
+        {{ comment.commentator|e }} <small class="text-muted">{{ comment.created|date('F j, Y - H:i') }}</small>
+
+
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-danger float-right" href="{{ path('comment_remove', {'post': post.id, 'comment': comment.id}) }}"
+               onclick="return confirm('Do you really want to delete this comment?');">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+
+
+    </div>
+    <div class="card-block">
+        {{ comment.body|e }}
+        <hr />
+        <a href="javascript:;"
+           class="btn btn-secondary btn-sm float-lg-right reply"
+           data-src="#reply-form"
+           data-parent="{{ comment.id }}"
+           data-target="#comment-{{ comment.id }}">
+            <i class="fa fa-reply" aria-hidden="true"></i>
+            Reply
+        </a>
+    </div>
+</div>

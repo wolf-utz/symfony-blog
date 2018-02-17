@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Repository\PaginationPostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,14 +76,21 @@ class PostController extends Controller
      * @Route("/post/{slug}", name="post_show")
      * @ParamConverter("post", class="App\Entity\Post")
      *
-     * @param Post $post
+     * @param Post    $post
+     *
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show(Post $post)
+    public function show(Post $post, Request $request)
     {
+        $form = $this->createForm(CommentType::class, new Comment());
+        $form->handleRequest($request);
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
+            'comments' => $post->getComments(),
+            'form' => $form->createView(),
         ]);
     }
 }

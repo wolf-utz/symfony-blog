@@ -1,0 +1,7 @@
+{% if comment.parent %}
+    <ul class="sub-comments">
+        {% include 'comment/partials/comments.html.twig' with {'comment': comment} only %}
+    </ul>
+{% else %}
+    {% include 'comment/partials/comments.html.twig' with {'comment': comment} only %}
+{% endif %}

@@ -1,0 +1,10 @@
+<li class="comment">
+    {% include 'comment/partials/comment.html.twig' with {'comment': comment, 'post': post} only %}
+    {% if comment.children %}
+        <ul class="sub-comments">
+            {% for child in comment.children %}
+                {% include 'comment/partials/comments.html.twig' with {'comment': child, 'post': post} only %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

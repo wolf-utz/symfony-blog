@@ -194,6 +194,23 @@ class User extends AbstractEntity implements AdvancedUserInterface, \Serializabl
     }
 
     /**
+     * Checks if the user object contains a specific role.
+     * @param string $role
+     *
+     * @return bool
+     */
+    public function hasRole(string $role)
+    {
+        foreach($this->getRoles() as $attachedRole) {
+            if($attachedRole === $role) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns the salt that was originally used to encode the password.
      *
      * This can return null if the password was not encoded using a salt.

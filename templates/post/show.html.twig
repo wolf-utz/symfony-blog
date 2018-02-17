@@ -18,4 +18,28 @@
 {% block body %}
     <h2>{{ post.title }}</h2>
     <p>{{ post.body|raw }}</p>
+    <hr>
+    {% include 'comment/form.html.twig' %}
+    <a href="javascript:;"
+       class="btn btn-secondary btn-sm float-lg-right reply"
+       data-src="#reply-form"
+       data-parent="0"
+       data-target="#comment-hook">
+        <i class="fa fa-reply" aria-hidden="true"></i>
+        Reply to post
+    </a>
+    <div class="clearfix"></div>
+    {# comments #}
+    <ul class="comments">
+        {% for comment in comments %}
+            {% if not comment.parent %}
+                {% include 'comment/partials/comments.html.twig' with {'comment': comment, 'post': post} only %}
+            {% endif %}
+        {% endfor %}
+        <div id="comment-hook"></div>
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}

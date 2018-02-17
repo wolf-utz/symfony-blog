@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -20,36 +21,51 @@ class Post extends AbstractEntity
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank()
+     *
+     * @var string
      */
-    private $title;
+    private $title = "";
 
     /**
      * @ORM\Column(type="string", length=128, unique=true)
+     *
+     * @var string
      */
-    private $slug;
+    private $slug = "";
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
+     *
+     * @var string
      */
-    private $body;
+    private $body = "";
 
     /**
-     * @ManyToMany(targetEntity="Tag",cascade={"persist"})
+     * @ManyToMany(targetEntity="App\Entity\Tag",cascade={"persist"})
      * @JoinTable(name="post_tag_mm",
      *      joinColumns={@JoinColumn(name="post_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="tag_id", referencedColumnName="id")}
      * )
      *
-     * @var ArrayCollection<\App\Entity\Tag>
+     * @var ArrayCollection|null
      */
-    private $tags;
+    private $tags = null;
+
+    /**
+     * @OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
+     *
+     * @var ArrayCollection|null
+     */
+    private $comments = null;
 
     /**
      * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="user_id", referencedColumnName="id")
+     *
+     * @var User|null
      */
-    private $user;
+    private $user = null;
 
     /**
      * Post constructor.
@@ -58,7 +74,7 @@ class Post extends AbstractEntity
     {
         parent::__construct();
         $this->tags = new ArrayCollection();
-        $this->categories = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -149,5 +165,21 @@ class Post extends AbstractEntity
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return ArrayCollection|null
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param ArrayCollection $comments
+     */
+    public function setComments(ArrayCollection $comments)
+    {
+        $this->comments = $comments;
     }
 }

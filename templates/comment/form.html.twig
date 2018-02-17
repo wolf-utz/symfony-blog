@@ -1,0 +1,30 @@
+<div id="reply-form" class="comment-form" data-post="{{ post.id }}" data-parent="0" data-target="#comment-hook" style="display: none;" >
+    {{ form_start(form, {'action': path('comment_create', {'post': post.id })}) }}
+
+    {{ form_label(form.commentator) }}
+    {{ form_errors(form.commentator) }}
+    {{ form_widget(form.commentator) }}
+
+    {{ form_label(form.body) }}
+    {{ form_errors(form.body) }}
+    {{ form_widget(form.body) }}
+
+    <br class="space" />
+    {# Render CSRF token etc .#}
+    <div style="display:none">
+        {{ form_rest(form) }}
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-xs-12">
+            {# Google reCAPTCHA #}
+            <div class="g-recaptcha" data-sitekey="{{ configuration().google_recaptcha_site_key }}"></div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <button type="submit" class="btn btn-primary btn-lg pull-right">
+                <i class="fa fa-paper-plane"></i> Create comment
+            </button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>

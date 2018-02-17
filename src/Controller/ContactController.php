@@ -90,7 +90,7 @@ class ContactController extends Controller
         if ($form->isSubmitted() && $form->isValid() && $reCaptchaResponse->isSuccess()) {
             /** @var ContactRequest $contactRequest */
             $contactRequest = $form->getData();
-            // TODO: send mail!
+            // TODO: Take a look at the progress...
             $message = (new \Swift_Message('Hello Email'))
                 ->setFrom($contactRequest->getEmail())
                 ->setTo($configuration['email'])
