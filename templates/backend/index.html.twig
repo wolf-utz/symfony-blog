@@ -4,6 +4,12 @@
     Welcome to the Backend
 {% endblock %}
 
+{% block main_actions %}
+    <b>Logged in as:</b> {{ user.username }} | <a class="" href="{{ path('logout') }}">
+        <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+    </a>
+{% endblock %}
+
 {% block body %}
     <div class="row">
     {% for module in modules %}

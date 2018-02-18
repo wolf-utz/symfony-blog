@@ -39,6 +39,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Class CommentController.
@@ -116,18 +117,18 @@ class CommentController extends Controller
      * @ParamConverter("comment", class="App\Entity\Comment")
      * @ParamConverter("post", class="App\Entity\Post")
      *
-     * @param Comment $comment
-     * @param Post    $post
+     * @param Comment                       $comment
+     * @param Post                          $post
+     *
+     * @param AuthorizationCheckerInterface $authChecker
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \App\Exception\WrongEntityClassException
      */
-    public function remove(Comment $comment, Post $post)
+    public function remove(Comment $comment, Post $post, AuthorizationCheckerInterface $authChecker)
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        if (!$user instanceof User || !$user->hasRole('ROLE_ADMIN')) {
+        if (!$authChecker->isGranted('ROLE_ADMIN')) {
             $response = new Response('You are not authorized to do such an action!');
             $response->setStatusCode(403);
 

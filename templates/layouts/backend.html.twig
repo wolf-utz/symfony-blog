@@ -12,8 +12,13 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body class="layout layout-backend">
+    {% block container %}
         <div class="container">
-            <h1>{% block h1 %}{% endblock %}</h1>
+            <h1 class="float-left">{% block h1 %}{% endblock %}</h1>
+            <div class="float-right">
+                {% block main_actions %}{% endblock %}
+            </div>
+            <div class="clearfix"></div>
             <div class="card">
                 <div class="card-block">
                     {% for label, messages in app.flashes %}
@@ -27,6 +32,7 @@
                 </div>
             </div>
         </div>
+    {% endblock %}
         <script src="{{ asset('build/global.js') }}"></script>
         <script src="{{ asset('build/backend.js') }}"></script>
         {% block javascripts %}{% endblock %}

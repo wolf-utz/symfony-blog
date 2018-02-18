@@ -9,6 +9,7 @@ use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -18,15 +19,20 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UserController extends Controller
 {
     /**
-     * @param Request             $request
-     * @param AuthenticationUtils $authUtils
-     *
-     * @Route("/login", name="user_login")
+     * @param Request                       $request
+     * @param AuthenticationUtils           $authUtils
+     * @param AuthorizationCheckerInterface $authChecker
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/backend/login", name="user_login")
      */
-    public function login(Request $request, AuthenticationUtils $authUtils)
+    public function login(Request $request, AuthenticationUtils $authUtils, AuthorizationCheckerInterface $authChecker)
     {
+        if ($authChecker->isGranted('ROLE_ADMIN')) {
+            $response = $this->redirectToRoute('backend_index');
+
+            return $response;
+        }
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 
