@@ -6,10 +6,14 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Exception\ConfigurationNotFoundException;
 use App\Form\CommentType;
 use App\Repository\PaginationPostRepository;
+use App\Service\ConfigurationService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -24,13 +28,20 @@ class PostController extends Controller
     protected $paginationPostRepository = null;
 
     /**
+     * @var null|ConfigurationService
+     */
+    protected $configurationService = null;
+
+    /**
      * PostController constructor.
      *
      * @param PaginationPostRepository $repo
+     * @param ConfigurationService     $configurationService
      */
-    public function __construct(PaginationPostRepository $repo)
+    public function __construct(PaginationPostRepository $repo, ConfigurationService $configurationService)
     {
         $this->paginationPostRepository = $repo;
+        $this->configurationService = $configurationService;
     }
 
     /**
@@ -38,12 +49,16 @@ class PostController extends Controller
      *
      * @Route("/", name="post_list")
      *
+     * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws ConfigurationNotFoundException
      */
     public function list(Request $request)
     {
         $currentPage = $request->query->get('currentPage') > 0 ? $request->query->get('currentPage') : 1;
-        $limit = 3; // TODO: get this by configuration.
+        $limit = $this->configurationService->getConfigurationEntry('post_limit');
         $posts = $this->paginationPostRepository->findAllVisiblePaginated($currentPage, $limit);
         $maxPages = ceil($posts->count() / $limit);
 
@@ -60,11 +75,15 @@ class PostController extends Controller
      *
      * @Route("/posts/page/{currentPage}", name="post_ajax_list")
      *
+     * @param int $currentPage
+     *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws ConfigurationNotFoundException
      */
     public function ajaxList(int $currentPage = 1)
     {
-        $limit = 3; // TODO: get this by configuration.
+        $limit = $this->configurationService->getConfigurationEntry('post_limit');
         $posts = $this->paginationPostRepository->findAllVisiblePaginated($currentPage, $limit);
 
         return $this->render('post/ajax_list.html.twig', [
@@ -74,16 +93,19 @@ class PostController extends Controller
 
     /**
      * @Route("/post/{slug}", name="post_show")
+     *
      * @ParamConverter("post", class="App\Entity\Post")
      *
      * @param Post    $post
-     *
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function show(Post $post, Request $request)
     {
+        if ($post->isHidden()) {
+            throw new NotFoundHttpException("The post is marked as hidden!");
+        }
         $form = $this->createForm(CommentType::class, new Comment());
         $form->handleRequest($request);
 

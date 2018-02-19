@@ -1,0 +1,17 @@
+{% extends 'layouts/frontend.html.twig' %}
+
+{% block subtitle %}404 Page not found{% endblock %}
+
+{% block h1 %}404{% endblock %}
+
+{% block subheading %}
+    Page not found
+{% endblock %}
+
+{% block body %}
+    <h1>Page not found</h1>
+    <p>
+        The requested page couldn't be located. Checkout for any URL
+        misspelling or <a href="{{ path('post_list') }}">return to the homepage</a>.
+    </p>
+{% endblock %}

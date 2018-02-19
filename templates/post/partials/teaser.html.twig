@@ -4,7 +4,11 @@
             {{ post.title }}
         </h2>
         <h3 class="post-subtitle">
-            {{ post.body|striptags|truncate(60, true) }}
+            {% if post.teaser %}
+                {{ post.teaser|e }}
+            {% else %}
+                {{ post.body|striptags|truncate(60, true) }}
+            {% endif %}
         </h3>
     </a>
     <p class="post-meta">

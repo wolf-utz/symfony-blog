@@ -18,28 +18,28 @@
 {% block body %}
     <h2>{{ post.title }}</h2>
     <p>{{ post.body|raw }}</p>
-    <a href="javascript:;"
-       class="btn btn-secondary btn-sm float-right reply"
-       data-src="#reply-form"
-       data-parent="0"
-       data-target="#comment-hook">
-        <i class="fa fa-reply" aria-hidden="true"></i>
-        Reply to post
-    </a>
-    <div class="clearfix"></div>
-    <hr>
-    {% include 'comment/form.html.twig' %}
-
-    <div class="clearfix"></div>
-    {# comments #}
-    <ul class="comments">
-        {% for comment in comments %}
-            {% if not comment.parent %}
-                {% include 'comment/partials/comments.html.twig' with {'comment': comment, 'post': post} only %}
-            {% endif %}
-        {% endfor %}
-        <div id="comment-hook"></div>
-    </ul>
+    {% if post.enableComments %}
+        <a href="javascript:;"
+           class="btn btn-secondary btn-sm float-right reply"
+           data-src="#reply-form"
+           data-parent="0"
+           data-target="#comment-hook">
+            <i class="fa fa-reply" aria-hidden="true"></i>
+            Reply to post
+        </a>
+        <div class="clearfix"></div>
+        <hr>
+        {% include 'comment/form.html.twig' %}
+        <div class="clearfix"></div>
+        <ul class="comments">
+            {% for comment in comments %}
+                {% if not comment.parent %}
+                    {% include 'comment/partials/comments.html.twig' with {'comment': comment, 'post': post} only %}
+                {% endif %}
+            {% endfor %}
+            <div id="comment-hook"></div>
+        </ul>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

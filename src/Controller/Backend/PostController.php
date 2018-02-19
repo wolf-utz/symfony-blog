@@ -42,7 +42,7 @@ class PostController extends Controller
      */
     public function list($currentPage = 1)
     {
-        $limit = 10; // TODO: get this by configuration.
+        $limit = 10;
         $posts = $this->paginationPostRepository->findAllPaginated($currentPage, $limit);
         $maxPages = ceil($posts->count() / $limit);
 
@@ -56,6 +56,7 @@ class PostController extends Controller
 
     /**
      * @Route("/backend/post/show/{id}", name="backend_post_show")
+     *
      * @ParamConverter("post", class="App\Entity\Post")
      *
      * @param Post $post
@@ -106,6 +107,9 @@ class PostController extends Controller
             $user = $this->getUser();
             /** @var Post $post */
             $post = $form->getData();
+            if(empty($post->getSlug())) {
+                $post->generateSlug();
+            }
             $post->setUser($user);
             $this->paginationPostRepository->add($post);
             $this->addFlash(
@@ -120,7 +124,69 @@ class PostController extends Controller
     }
 
     /**
+     * @Route("/backend/post/edit/{id}", name="backend_post_edit")
+     *
+     * @ParamConverter("post", class="App\Entity\Post")
+     *
+     * @param Request $request
+     * @param Post    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function edit(Request $request, Post $post)
+    {
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        return $this->render('backend/post/edit.html.twig', [
+            'form' => $form->createView(),
+            'post' => $post
+        ]);
+    }
+
+    /**
+     * @Route("/backend/post/update/{id}", name="backend_post_update")
+     *
+     * @param Request $request
+     *
+     * @param Post    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \App\Exception\WrongEntityClassException
+     */
+    public function update(Request $request, Post $post)
+    {
+        $form = $this->createForm(PostType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Post $data */
+            $data = $form->getData();
+            $post->setTitle($data->getTitle());
+            $post->setTeaser($data->getTeaser());
+            $post->setTags($data->getTags());
+            $post->setSlug($data->getSlug());
+            $post->setBody($data->getBody());
+            $post->setLastUpdated();
+            $post->setHidden($data->isHidden());
+            $post->setEnableComments($data->isEnableComments());
+            $this->paginationPostRepository->update($post);
+            $this->addFlash(
+                'success',
+                'Successfully update the post with id '.$data->getId()
+            );
+
+            return $this->redirectToRoute('backend_post_list');
+        } else {
+            return $this->redirectToRoute('backend_post_edit', ['request' => $request, 'post' => $post]);
+        }
+    }
+
+
+    /**
      * @Route("/backend/post/delete/{id}", name="backend_post_delete")
+     *
      * @ParamConverter("post", class="App\Entity\Post")
      *
      * @param Post    $post
@@ -145,6 +211,7 @@ class PostController extends Controller
 
     /**
      * @Route("/backend/post/toggle-hidden-state/{id}", name="backend_post_toggle_hidden_state")
+     *
      * @ParamConverter("post", class="App\Entity\Post")
      *
      * @param Post    $post

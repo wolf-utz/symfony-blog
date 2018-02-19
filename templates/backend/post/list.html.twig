@@ -2,7 +2,8 @@
 
 {% block body %}
     <h2>Manage your posts</h2>
-    <a class="btn btn-primary" href="{{ path('backend_post_new') }}">Create a new post</a>
+    <hr />
+    <a class="btn btn-primary" href="{{ path('backend_post_new') }}"><i class="fa fa-plus" aria-hidden="true"></i> Create a new post</a>
     <br /><br />
     {% if maxPages > 1 %}
         <ul class="pagination">
@@ -20,13 +21,15 @@
         </ul>
     {% endif %}
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-condensed">
+        <table class="table table-hover table-condensed">
             <thead>
                 <tr>
-                    <th>Actions</th>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>User</th>
+                    <th><i class="fa fa-cogs" aria-hidden="true"></i>  Actions</th>
+                    <th><i class="fa fa-tag" aria-hidden="true"></i> Title</th>
+                    <th><i class="fa fa-globe" aria-hidden="true"></i> Slug</th>
+                    <th><i class="fa fa-calendar" aria-hidden="true"></i> Created</th>
+                    <th><i class="fa fa-calendar" aria-hidden="true"></i> Updated</th>
+                    <th><i class="fa fa-user" aria-hidden="true"></i> User</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,8 +45,9 @@
                                         <i class="fa fa-eye"></i>
                                     {% endif %}
                                 </a>
-                                <button type="button" class="btn btn-secondary"><i class="fa fa-pencil"></i></button>
-                                <a href="{{ path('post_show', {'slug': post.slug}) }}" class="btn btn-secondary">Show</a>
+                                <a href="{{ path('backend_post_edit', {'id': post.id}) }}" class="btn btn-secondary">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
                                 <a  href="{{ path('backend_post_delete', {'id': post.id, 'currentPage': currentPage}) }}"
                                     onclick="return confirm('Really delete the following post?\n\n{{ post.title }}');"
                                     class="btn btn-danger">
@@ -51,8 +55,10 @@
                                 </a>
                             </div>
                         </td>
-                        <td>{{ post.title }}</td>
-                        <td>{{ post.created|date('m-d-Y | H:i') }}</td>
+                        <td>{{ post.title|truncate(24) }}</td>
+                        <td>{{ post.slug|truncate(24) }}</td>
+                        <td>{{ post.created|date('m-d-Y @ H:i') }}</td>
+                        <td>{{ post.lastUpdated|date('m-d-Y @ H:i') }}</td>
                         <td>{{ post.user.username }}</td>
                     </tr>
                 {% endfor %}

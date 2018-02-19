@@ -35,6 +35,13 @@ class Post extends AbstractEntity
 
     /**
      * @ORM\Column(type="text")
+     *
+     * @var string
+     */
+    private $teaser = "";
+
+    /**
+     * @ORM\Column(type="text")
      * @Assert\NotBlank()
      *
      * @var string
@@ -98,7 +105,6 @@ class Post extends AbstractEntity
     public function setTitle($title)
     {
         $this->title = $title;
-        $this->generateSlug();
     }
 
     /**
@@ -124,6 +130,22 @@ class Post extends AbstractEntity
     {
         // TODO: Find a better solution!
         $this->slug = rtrim(strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->title))), '-');
+    }
+
+    /**
+     * @return string
+     */
+    public function getTeaser()
+    {
+        return $this->teaser;
+    }
+
+    /**
+     * @param string $teaser
+     */
+    public function setTeaser($teaser)
+    {
+        $this->teaser = $teaser;
     }
 
     /**
