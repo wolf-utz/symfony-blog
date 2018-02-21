@@ -1,0 +1,18 @@
+{% extends 'layouts/frontend.html.twig' %}
+
+{% block header_heading %}
+    <h1>Posts tagged with {{ tag.title }}</h1>
+    <p class="subheading">
+        This page contains a list of posts, containing the tag {{ tag.title }}.
+    </p>
+{% endblock %}
+
+{% block body %}
+    {% if posts %}
+        {% for post in posts %}
+            {% include 'post/partials/teaser.html.twig' with {'post': post} %}
+        {% endfor %}
+    {% else %}
+        {{ alert("No posts found!", "warning")|raw }}
+    {% endif %}
+{% endblock %}

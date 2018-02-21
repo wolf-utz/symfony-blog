@@ -11,9 +11,7 @@
             <h1>{% block h1 %}{% endblock %}</h1>
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
-                        {{ message }}
-                    </div>
+                    {{ alert(message, label)|raw }}
                 {% endfor %}
             {% endfor %}
             {% block body %}{% endblock %}

@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\Tag;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\AbstractType;
@@ -23,6 +24,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PostType extends AbstractType
 {
+    /**
+     * @var null|TagRepository
+     */
+    protected $tagRepository = null;
+
+    /**
+     * PostType constructor.
+     *
+     * @param TagRepository $tagRepository
+     */
+    public function __construct(TagRepository $tagRepository)
+    {
+       $this->tagRepository = $tagRepository;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -131,8 +147,12 @@ class PostType extends AbstractType
             function (string $tagsAsString) {
                 $tags = new ArrayCollection();
                 foreach(explode(',', $tagsAsString) as $title) {
-                    $tag = new Tag();
-                    $tag->setTitle(trim($title));
+                    $tag = $this->tagRepository->findOneBy(['title' => trim($title)]);
+                    if(is_null($tag)) {
+                        $tag = new Tag();
+                        $tag->setTitle(trim($title));
+                        $tag->generateSlug();
+                    }
                     $tags->add($tag);
                 }
                 return $tags;

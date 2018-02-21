@@ -1,0 +1,20 @@
+{% extends 'layouts/frontend.html.twig' %}
+
+{% block header_heading %}
+    <h1>Tags</h1>
+    <p class="subheading">
+        This page contains a list of all available tags of the blog.
+    </p>
+{% endblock %}
+
+{% block body %}
+    {% if tags %}
+        {% for tag in tags %}
+            <a class="badge badge-primary" href="{{ path("tag_tag", {'slug': tag.slug}) }}">
+                {{ tag.title }}
+            </a>
+        {% endfor %}
+    {% else %}
+        {{ alert("No tags found!", "warning")|raw }}
+    {% endif %}
+{% endblock %}

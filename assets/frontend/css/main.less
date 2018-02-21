@@ -287,6 +287,21 @@ form .row:first-child .floating-label-form-group {
         color: white;
     }
 }
+.badge {
+    &.badge-primary {
+        background-color: @gray-dark;
+        border: 1px solid @gray-darker;
+    }
+}
+a.badge-primary {
+    text-decoration: none;
+    &:hover,
+    &:focus {
+        background-color: @theme-primary;
+        border: 1px solid @theme-primary;
+        color: white;
+    }
+}
 // Pager Styling
 .pager {
     margin: 20px 0 0;
@@ -350,35 +365,35 @@ body {
     min-height: 80px;
 }
 // Post show
-ul.comments{
-    margin:0;
+ul.comments {
+    margin: 0;
     padding: 0;
     list-style: none;
-    li{
+    li {
         margin-bottom: 10px;
     }
-    .comment{
+    .comment {
         border: 1px solid @box-heading;
         border-radius: 3px;
         background-color: @box-body;
-        p.comment-heading{
+        p.comment-heading {
             padding: 10px;
             background-color: @box-heading;
             margin-top: 0;
             margin-bottom: 0;
         }
-        div.comment-body{
+        div.comment-body {
             border-top: 1px solid @box-accent;
             padding: 10px;
         }
-        a.delete{
+        a.delete {
             margin-left: 10px;
         }
-        span.comment-datetime{
+        span.comment-datetime {
             margin-left: 10px;
         }
     }
-    ul.sub-comments{
+    ul.sub-comments {
         margin-top: 10px;
         list-style: none;
         & li {
@@ -394,8 +409,8 @@ ul.comments{
         }
     }
 }
-.fancybox-slide{
-    .comment a{
+.fancybox-slide {
+    .comment a {
         display: none;
     }
 }
@@ -405,7 +420,7 @@ ul.comments{
     width: 100%;
     position: absolute;
     > .navbar-brand,
-    .navbar-nav .nav-link{
+    .navbar-nav .nav-link {
         color: white;
         &:hover,
         &:focus {
@@ -415,7 +430,7 @@ ul.comments{
     @media only screen and (max-width: 768px) {
         color: @gray-darker;
         background-color: white;
-        > .navbar-brand{
+        > .navbar-brand {
             color: @gray-darker;
             position: absolute;
             right: 0;

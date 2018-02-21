@@ -4,40 +4,104 @@ declare(strict_types=1);
 
 namespace App\Controller\Backend;
 
+use App\Entity\Post;
+use App\Entity\Tag;
+use App\Form\TagType;
+use App\Repository\TagRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class TagController.
  */
 class TagController extends Controller
 {
-    private $paginatedTagRepository = null;
+    /**
+     * @var null|TagRepository
+     */
+    private $tagRepository = null;
 
-
-    public function __construct()
+    /**
+     * TagController constructor.
+     *
+     * @param TagRepository $tagRepository
+     */
+    public function __construct(TagRepository $tagRepository)
     {
+        $this->tagRepository = $tagRepository;
     }
 
     /**
-     * @Route("/backend/tags/{currentPage}", name="backend_tag_list")
+     * @Route("/backend/tags", name="backend_tag_list")
      *
-     * @param int $currentPage
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function list($currentPage = 1)
+    public function list(Request $request)
     {
-        $limit = 10;
-        $posts = $this->paginatedTagRepository->findAllPaginated($currentPage, $limit);
-        $maxPages = ceil($posts->count() / $limit);
+        $form = $this->createForm(TagType::class, new Tag());
+        $form->handleRequest($request);
 
-        return $this->render('backend/post/list.html.twig', [
-            'posts' => $posts,
-            'currentPage' => $currentPage,
-            'limit' => $limit,
-            'maxPages' => $maxPages,
+        return $this->render('backend/tag/list.html.twig', [
+            'tags' => $this->tagRepository->findAllEvenHidden(),
+            'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/backend/tag/new", name="backend_tag_create")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \App\Exception\WrongEntityClassException
+     */
+    public function create(Request $request)
+    {
+        $form = $this->createForm(TagType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Tag $newTag */
+            $newTag = $form->getData();
+            if(is_null($this->tagRepository->findOneBy(['title' => $newTag->getTitle()]))) {
+                $newTag->generateSlug();
+                $this->tagRepository->add($newTag);
+                $this->addFlash('success', 'Successfully created the new tag with title: '.$newTag->getTitle());
+            } else {
+                $this->addFlash('danger', 'Tag with title '.$newTag->getTitle().' already exist!');
+            }
+        } else {
+            $this->addFlash('danger', 'The creation of the new tag has failed!');
+        }
+
+        return $this->redirectToRoute('backend_tag_list');
+    }
+
+    /**
+     * @Route("/backend/tag/remove/{tag}", name="backend_tag_remove")
+     *
+     * @ParamConverter("tag", class="App\Entity\Tag")
+     *
+     * @param Tag $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @throws \App\Exception\WrongEntityClassException
+     */
+    public function remove(Tag $tag)
+    {
+        $posts = $tag->getPosts();
+        /** @var Post $post */
+        foreach ($posts as $post) {
+            $post->removeTag($tag);
+        }
+        $this->tagRepository->remove($tag);
+        $this->addFlash('success', 'Successfully removed tag with title: '.$tag->getTitle());
+
+        return $this->redirectToRoute('backend_tag_list');
     }
 }

@@ -1,0 +1,35 @@
+{% extends 'layouts/module.html.twig' %}
+
+{% block body %}
+    <h2>Manage your tags</h2>
+    <hr />
+    {{ form_start(form, {'action': path('backend_tag_create'), 'attr': {'class': 'form-inline'}}) }}
+        <fieldset class="form-group">
+            {{ form_label(form.title) }}:
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title) }}
+        </fieldset>
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-plus" aria-hidden="true"></i> Add
+        </button>
+    {{ form_end(form) }}
+    <hr />
+    <h3>All tags of the system</h3>
+    {% if tags %}
+        <div class="card">
+            <div class="card-block">
+                {% for tag in tags %}
+                    <span class="badge badge-primary">
+                        {{ tag.title }}  <a href="{{ path('backend_tag_remove', {'tag': tag.id}) }}"
+                                      onclick="return confirm('Really delete the following tag?\n\n{{ tag.title }}');"
+                                      class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        {{ alert("No tags found!", "warning")|raw }}
+    {% endif %}
+{% endblock %}

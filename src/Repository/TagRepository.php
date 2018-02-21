@@ -23,15 +23,4 @@ class TagRepository extends AbstractRespoitory
     {
         parent::__construct($registry, $em, Tag::class);
     }
-
-    /**
-     * @return array|mixed
-     */
-    public function findAllEvenHidden()
-    {
-        return $this->createQueryBuilder('tag')
-            ->orderBy('tag.title', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
 }

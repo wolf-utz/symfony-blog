@@ -227,4 +227,18 @@ class Post extends AbstractEntity
     {
         $this->enableComments = $enableComments;
     }
+
+    /**
+     * Helper method to remove the mm relation between a post and a tag.
+     *
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag)
+    {
+        if (!$this->tags->contains($tag)) {
+            return;
+        }
+        $this->tags->removeElement($tag);
+        $tag->removePost($this);
+    }
 }
