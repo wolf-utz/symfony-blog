@@ -2,7 +2,7 @@ title: 'A Blog About Extbase'
 description: 'This blog is all about PHP development using the framework extbase in the context of the well known CMS TYPO3.'
 vendor: 'Omega Code'
 email: omega-code@gmail.com
-post_limit: 5
+post_limit: '3'
 social_twitter_link: 'https://twitter.com/0megaCode'
 social_facebook_link: ''
 social_xing_link: ''

@@ -107,7 +107,7 @@ class PostController extends Controller
             $user = $this->getUser();
             /** @var Post $post */
             $post = $form->getData();
-            if(empty($post->getSlug())) {
+            if (empty($post->getSlug())) {
                 $post->generateSlug();
             }
             $post->setUser($user);
@@ -140,7 +140,7 @@ class PostController extends Controller
 
         return $this->render('backend/post/edit.html.twig', [
             'form' => $form->createView(),
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
@@ -148,7 +148,6 @@ class PostController extends Controller
      * @Route("/backend/post/update/{id}", name="backend_post_update")
      *
      * @param Request $request
-     *
      * @param Post    $post
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -183,14 +182,12 @@ class PostController extends Controller
         }
     }
 
-
     /**
      * @Route("/backend/post/delete/{id}", name="backend_post_delete")
      *
      * @ParamConverter("post", class="App\Entity\Post")
      *
      * @param Post    $post
-     *
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -218,12 +215,14 @@ class PostController extends Controller
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \App\Exception\WrongEntityClassException
      */
     public function toggleHiddenState(Post $post, Request $request)
     {
         $currentPage = $request->get('currentPage');
         $post->setHidden(!$post->isHidden());
-        $this->paginationPostRepository->update();
+        $this->paginationPostRepository->update($post);
         $this->addFlash(
             'info',
             'Successfully toggled hidden state of post '.$post->getTitle().'!'

@@ -1,0 +1,10 @@
+title: 'A Blog'
+description: 'This is a blog!'
+vendor: Vendor
+email: fixture@test.unit
+post_limit: 5
+social_twitter_link: abc
+social_facebook_link: abc
+social_xing_link: abc
+google_recaptcha_site_key: 12345678
+google_recaptcha_secret_key: 12345678

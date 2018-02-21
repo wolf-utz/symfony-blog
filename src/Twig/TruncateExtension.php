@@ -11,7 +11,7 @@ use Twig\TwigFilter;
 class TruncateExtension extends AbstractExtension
 {
     /**
-     * @return array|\Twig_Filter[]
+     * @return array|\Twig_Filter
      */
     public function getFilters()
     {
@@ -41,7 +41,7 @@ class TruncateExtension extends AbstractExtension
             $text = $this->truncateCharWise($text, $limit, $append);
         }
 
-        return $text;
+        return trim($text);
     }
 
     /**
@@ -57,6 +57,8 @@ class TruncateExtension extends AbstractExtension
     }
 
     /**
+     * White spaces will not affect the resulting char count.
+     *
      * @param string $text
      * @param int    $limit
      * @param string $append
