@@ -1,0 +1,73 @@
+{
+    "id": "bdff3ba2-a559-4f19-b247-35d90f76f90c",
+    "name": "SymfonyBlog",
+    "url": "http://docker.dev.local",
+    "tests": [
+        {
+            "id": "3d438cd2-49a9-4af2-930d-09ddabf98140",
+            "name": "FillOutAndSendContactForm",
+            "commands": [
+                {
+                    "id": "8491e041-b923-4473-a9db-f52a63d680df",
+                    "command": "open",
+                    "target": "/contact",
+                    "value": ""
+                },
+                {
+                    "id": "d585a284-7233-4fef-aea4-43f7a7f7eb33",
+                    "command": "clickAt",
+                    "target": "id=contact_request_name",
+                    "value": "241,13"
+                },
+                {
+                    "id": "14c3661e-42e1-4bd3-a2b2-417e60bd5477",
+                    "command": "type",
+                    "target": "id=contact_request_name",
+                    "value": "Hans"
+                },
+                {
+                    "id": "859af049-ba42-472a-b7a3-1af781708e9e",
+                    "command": "type",
+                    "target": "id=contact_request_email",
+                    "value": "wpu@hotmail.de"
+                },
+                {
+                    "id": "f5b24543-196c-452b-b380-9bb9fd9b7739",
+                    "command": "type",
+                    "target": "id=contact_request_note",
+                    "value": "This is my awesome message!"
+                },
+                {
+                    "id": "a552076c-5fb9-41b0-99e3-344ed3507b1d",
+                    "command": "clickAt",
+                    "target": "//button[@type='submit']",
+                    "value": "93,39"
+                },
+                {
+                    "id": "4a7c64b1-6dda-428d-aead-9e9086484db1",
+                    "command": "assertElementPresent",
+                    "target": "css=div.alert.alert-success",
+                    "value": ""
+                },
+                {
+                    "id": "487f0194-52ea-4417-b773-dec1c798f18e",
+                    "command": "assertText",
+                    "target": "css=div.alert.alert-success",
+                    "value": "Successfully sent request! (ignoring CAPTCHA while in env: test)"
+                }
+            ]
+        }
+    ],
+    "suites": [
+        {
+            "id": "936baa05-b4cf-4639-a083-4fdd36d23cac",
+            "name": "Symfony Blog",
+            "tests": [
+                "3d438cd2-49a9-4af2-930d-09ddabf98140"
+            ]
+        }
+    ],
+    "urls": [
+        "http://docker.dev.local"
+    ]
+}
