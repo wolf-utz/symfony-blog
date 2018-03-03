@@ -144,7 +144,10 @@ class PostType extends AbstractType
                 return implode(', ', $titles);
             },
             /** @param  string|null $tagsAsString */
-            function (string $tagsAsString) {
+            function ($tagsAsString) {
+                if(empty($tagsAsString)) {
+                    return new ArrayCollection();
+                }
                 $tags = new ArrayCollection();
                 foreach(explode(',', $tagsAsString) as $title) {
                     $tag = $this->tagRepository->findOneBy(['title' => trim($title)]);

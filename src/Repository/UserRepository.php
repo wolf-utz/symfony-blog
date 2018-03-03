@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -13,6 +14,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserRepository extends AbstractRespoitory
 {
+    use PaginateableRepositoryTrait;
+
     /**
      * PostRepository constructor.
      *
@@ -25,13 +28,17 @@ class UserRepository extends AbstractRespoitory
     }
 
     /**
-     * @return array|mixed
+     * @param int $currentPage
+     * @param int $limit
+     *
+     * @return mixed
      */
-    public function findAllEvenHidden()
+    public function findAllEvenHiddenPaginated($currentPage = 1, $limit = 5)
     {
-        return $this->createQueryBuilder('User')
-            ->orderBy('User.title', 'ASC')
-            ->getQuery()
-            ->getResult();
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->createQueryBuilder("u");
+        $queryBuilder->getQuery();
+
+        return $this->paginate($queryBuilder, $currentPage, $limit);
     }
 }

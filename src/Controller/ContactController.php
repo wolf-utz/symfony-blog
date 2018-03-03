@@ -79,6 +79,7 @@ class ContactController extends Controller
      */
     public function create(Request $request)
     {
+        $env = $this->container->get( 'kernel' )->getEnvironment();
         $configuration = $this->configurationService->getConfiguration();
         $reCaptcha = new ReCaptcha($configuration['google_recaptcha_secret_key']);
         $reCaptchaResponse = $reCaptcha->verify(
@@ -87,7 +88,9 @@ class ContactController extends Controller
         );
         $form = $this->createForm(ContactRequestType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid() && $reCaptchaResponse->isSuccess()) {
+        if ($form->isSubmitted() && $form->isValid() &&
+            ($reCaptchaResponse->isSuccess() || $env === "test" || $env === "dev")
+        ) {
             /** @var ContactRequest $contactRequest */
             $contactRequest = $form->getData();
             // TODO: Take a look at the progress...
@@ -102,7 +105,8 @@ class ContactController extends Controller
             $this->contactRequestRepository->add($form->getData());
             $this->addFlash(
                 'success',
-                'Successfully sent request!'
+                'Successfully sent request!'.
+                ($env === "test" || $env === "dev" ? " (ignoring CAPTCHA while in env: $env)":'')
             );
         } elseif (!$reCaptchaResponse->isSuccess()) {
             $this->addFlash(

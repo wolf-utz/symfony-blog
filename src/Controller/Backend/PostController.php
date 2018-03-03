@@ -7,7 +7,7 @@ namespace App\Controller\Backend;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
-use App\Repository\PaginationPostRepository;
+use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -19,18 +19,18 @@ use Symfony\Component\HttpFoundation\Request;
 class PostController extends Controller
 {
     /**
-     * @var PaginationPostRepository|null
+     * @var PostRepository|null
      */
-    protected $paginationPostRepository = null;
+    protected $postRepository = null;
 
     /**
      * PostController constructor.
      *
-     * @param PaginationPostRepository $postRepository
+     * @param PostRepository $postRepository
      */
-    public function __construct(PaginationPostRepository $postRepository)
+    public function __construct(PostRepository $postRepository)
     {
-        $this->paginationPostRepository = $postRepository;
+        $this->postRepository = $postRepository;
     }
 
     /**
@@ -43,7 +43,7 @@ class PostController extends Controller
     public function list($currentPage = 1)
     {
         $limit = 10;
-        $posts = $this->paginationPostRepository->findAllPaginated($currentPage, $limit);
+        $posts = $this->postRepository->findAllPaginated($currentPage, $limit);
         $maxPages = ceil($posts->count() / $limit);
 
         return $this->render('backend/post/list.html.twig', [
@@ -111,7 +111,7 @@ class PostController extends Controller
                 $post->generateSlug();
             }
             $post->setUser($user);
-            $this->paginationPostRepository->add($post);
+            $this->postRepository->add($post);
             $this->addFlash(
                 'info',
                 'Successfully created new post!'
@@ -170,10 +170,10 @@ class PostController extends Controller
             $post->setLastUpdated();
             $post->setHidden($data->isHidden());
             $post->setEnableComments($data->isEnableComments());
-            $this->paginationPostRepository->update($post);
+            $this->postRepository->update($post);
             $this->addFlash(
                 'success',
-                'Successfully update the post with id '.$data->getId()
+                'Successfully update the post with id '.$post->getId()
             );
 
             return $this->redirectToRoute('backend_post_list');
@@ -197,7 +197,7 @@ class PostController extends Controller
     public function delete(Post $post, Request $request)
     {
         $currentPage = $request->get('currentPage');
-        $this->paginationPostRepository->remove($post);
+        $this->postRepository->remove($post);
         $this->addFlash(
             'info',
             'Successfully removed post '.$post->getTitle().'!'
@@ -222,7 +222,7 @@ class PostController extends Controller
     {
         $currentPage = $request->get('currentPage');
         $post->setHidden(!$post->isHidden());
-        $this->paginationPostRepository->update($post);
+        $this->postRepository->update($post);
         $this->addFlash(
             'info',
             'Successfully toggled hidden state of post '.$post->getTitle().'!'

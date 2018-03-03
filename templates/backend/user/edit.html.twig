@@ -1,0 +1,33 @@
+{% extends 'layouts/module.html.twig' %}
+
+{% block subtitle %} | Edit a user{% endblock %}
+
+{% block body %}
+    <a class="btn btn-secondary pull-right" href="{{ path('backend_user_list') }}"><i class="fa fa-arrow-left"></i> back to list</a>
+    <h1>Edit user with id {{ user.id }} ({{ user.username }})</h1>
+    {{ form_start(form, {'action': path('backend_user_update', {'id': user.id })}) }}
+        <fieldset class="form-group">
+            {{ form_label(form.username) }}
+            {{ form_errors(form.username) }}
+            {{ form_widget(form.username) }}
+        </fieldset>
+        <fieldset class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_errors(form.email) }}
+            {{ form_widget(form.email) }}
+        </fieldset>
+        <fieldset class="form-group">
+            {{ form_label(form.plainPassword.first) }}
+            {{ form_errors(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first) }}
+        </fieldset>
+        <fieldset class="form-group">
+            {{ form_label(form.plainPassword.second) }}
+            {{ form_errors(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second) }}
+        </fieldset>
+        <button type="submit" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i> Update user
+        </button>
+    {{ form_end(form) }}
+{% endblock %}

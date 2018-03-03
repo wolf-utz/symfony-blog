@@ -8,7 +8,7 @@ use App\Entity\Comment;
 use App\Entity\Post;
 use App\Exception\ConfigurationNotFoundException;
 use App\Form\CommentType;
-use App\Repository\PaginationPostRepository;
+use App\Repository\PostRepository;
 use App\Service\ConfigurationService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class PostController extends Controller
 {
     /**
-     * @var PaginationPostRepository|null
+     * @var PostRepository|null
      */
     protected $paginationPostRepository = null;
 
@@ -35,10 +35,10 @@ class PostController extends Controller
     /**
      * PostController constructor.
      *
-     * @param PaginationPostRepository $repo
-     * @param ConfigurationService     $configurationService
+     * @param PostRepository       $repo
+     * @param ConfigurationService $configurationService
      */
-    public function __construct(PaginationPostRepository $repo, ConfigurationService $configurationService)
+    public function __construct(PostRepository $repo, ConfigurationService $configurationService)
     {
         $this->paginationPostRepository = $repo;
         $this->configurationService = $configurationService;

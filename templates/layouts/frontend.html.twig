@@ -24,6 +24,7 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+    <div class="container navbar-container">
         <!-- Navigation -->
         <nav class="navbar navbar-toggleable-sm navbar-light navbar-custom">
             <a class="navbar-brand" href="/">{{ configuration().title }}</a>
@@ -40,7 +41,7 @@
                 </ul>
             </div>
         </nav>
-
+    </div>
         <!-- Header -->
         {% block header %}
             <header class="intro-header parallax-window" data-parallax="scroll" data-image-src="{{ asset('images/home-office-bg.jpg') }}">

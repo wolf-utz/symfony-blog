@@ -1,0 +1,59 @@
+{% extends 'layouts/module.html.twig' %}
+
+{% block body %}
+    <h2>Manage blog users</h2>
+    <hr />
+    <a class="btn btn-primary" href="{{ path('backend_user_new') }}"><i class="fa fa-plus" aria-hidden="true"></i> Create a new user</a>
+    <br /><br />
+    {% if maxPages > 1 %}
+        <ul class="pagination">
+            <li class="page-item {{ currentPage == 1 ? 'disabled' }}">
+                <a class="page-link" href="{{ path('backend_user_list', {'currentPage': currentPage-1 < 1 ? 1 : currentPage-1}) }}">«</a>
+            </li>
+            {% for i in 1..maxPages %}
+                <li class="page-item {{ currentPage == i ? 'active' }}">
+                    <a class="page-link" href="{{ path('backend_user_list', {'currentPage': i}) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {{ currentPage == maxPages ? 'disabled' }}">
+                <a class="page-link" href="{{ path('backend_user_list', {'currentPage': currentPage+1 <= maxPages ? currentPage+1 : currentPage}) }}">»</a>
+            </li>
+        </ul>
+    {% endif %}
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th><i class="fa fa-cogs" aria-hidden="true"></i>  Actions</th>
+                <th><i class="fa fa-user" aria-hidden="true"></i> Username</th>
+                <th><i class="fa fa-envelope" aria-hidden="true"></i> Email</th>
+                <th><i class="fa fa-calendar" aria-hidden="true"></i> Created</th>
+                <th><i class="fa fa-calendar" aria-hidden="true"></i> Updated</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr class="{% if user.isHidden() %}table-danger{% endif %}">
+                    <td id="user-{{ user.id }}">
+                        <div class="btn-group" role="group" aria-label="record actions">
+
+                            <a href="{{ path('backend_user_edit', {'id': user.id}) }}" class="btn btn-secondary">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a  href="{{ path('backend_user_delete', {'id': user.id, 'currentPage': currentPage}) }}"
+                                onclick="return confirm('Really delete the following user?\n\n{{ user.username }}');"
+                                class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                    <td>{{ user.username|truncate(24) }}</td>
+                    <td>{{ user.email|truncate(24) }}</td>
+                    <td>{{ user.created|date('m-d-Y @ H:i') }}</td>
+                    <td>{{ user.lastUpdated|date('m-d-Y @ H:i') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

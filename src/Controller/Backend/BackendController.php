@@ -32,10 +32,10 @@ class BackendController extends Controller
         }
         $modules = [
             new Module('Posts', 'Manage your posts here.', 'pencil-square-o', 'backend_post_list'),
-            new Module('Comments', 'Manage the comments', 'comment', 'backend_configuration_index'),
+            new Module('Comments', 'Manage the comments', 'comment', 'backend_comment_list'),
             new Module('Tags', 'Manage your tags here', 'tag', 'backend_tag_list'),
-            new Module('Users', 'Manage your users here', 'users', 'backend_configuration_index'),
-            new Module('Statistics', 'Overview general statistics', 'bar-chart', 'backend_configuration_index'),
+            new Module('Users', 'Manage your users here', 'users', 'backend_user_list'),
+//            new Module('Statistics', 'Overview general statistics', 'bar-chart', 'backend_configuration_index'),
             new Module('Configurations', 'Configure the system', 'cogs', 'backend_configuration_index'),
         ];
 
