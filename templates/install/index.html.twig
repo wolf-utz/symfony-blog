@@ -1,0 +1,104 @@
+{% extends 'layouts/system.html.twig' %}
+
+{%  block body %}
+    <form class="install-wrapper" method="post">
+
+        <h1 class="title">Welcome to the blog installation process!</h1>
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <hr />
+
+        <h2 class="title">#1 Enter your Database connection</h2>
+        <p class="description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et</p>
+
+        <div class="form-group row">
+            <label for="db_user" class="col-sm-4 col-form-label">User name</label>
+            <div class="col-sm-8">
+                <input name="db_user" id="db_user" class="form-control" type="text" value="{% if arguments.db_user is defined %}{{ arguments.db_user }}{% endif %}" required />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="db_password" class="col-sm-4 col-form-label">Password</label>
+            <div class="col-sm-8">
+                <input name="db_password" id="db_password" class="form-control" type="password" value="{% if arguments.db_password is defined %}{{ arguments.db_password }}{% endif %}" required />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="db_name" class="col-sm-4 col-form-label">Database name</label>
+            <div class="col-sm-8">
+                <input name="db_name" id="db_name" class="form-control" type="text" value="{% if arguments.db_name is defined %}{{ arguments.db_name }}{% endif %}" required />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="db_host" class="col-sm-4 col-form-label">Host</label>
+            <div class="col-sm-8">
+                <input name="db_host" id="db_host" class="form-control" type="text" value="{% if arguments.db_host is defined %}{{ arguments.db_host }}{% else %}localhost{% endif %}" required />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="db_port" class="col-sm-4 col-form-label">Port</label>
+            <div class="col-sm-8">
+                <input name="db_port" id="db_port" class="form-control" type="text" value="{% if arguments.db_port is defined %}{{ arguments.db_port }}{% else %}3306{% endif %}" required />
+            </div>
+        </div>
+
+        <h2 class="title">#2 Enter the blog information</h2>
+        <p class="description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et</p>
+
+        <div class="form-group row">
+            <label for="blog_title" class="col-sm-4 col-form-label">Title</label>
+            <div class="col-sm-8">
+                <input name="blog_title" id="blog_title" class="form-control" type="text" value="{% if arguments.blog_title is defined %}{{ arguments.blog_title }}{% else %}My blog{% endif %}" required />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="blog_description" class="col-sm-4 col-form-label">Description</label>
+            <div class="col-sm-8">
+                <input name="blog_description" id="blog_description" class="form-control" type="text" value="{% if arguments.blog_description is defined %}{{ arguments.blog_description }}{% else %}This is a blog about...{% endif %}" required />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="blog_vendor" class="col-sm-4 col-form-label">Vendor (optional)</label>
+            <div class="col-sm-8">
+                <input name="blog_vendor" id="blog_vendor" class="form-control" type="email" value="{% if arguments.blog_vendor is defined %}{{ arguments.blog_vendor }}{% endif %}" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="blog_email" class="col-sm-4 col-form-label">E-Mail (optional)</label>
+            <div class="col-sm-8">
+                <input name="blog_email" id="blog_email" class="form-control" type="text" value="{% if arguments.blog_email is defined %}{{ arguments.blog_email }}{% endif %}" />
+            </div>
+        </div>
+
+        <h2 class="title">#3 Create an admin user</h2>
+        <p class="description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et</p>
+
+        <div class="form-group row">
+            <label for="admin_user" class="col-sm-4 col-form-label">User name</label>
+            <div class="col-sm-8">
+                <input name="admin_user" id="admin_user" class="form-control" type="text" value="{% if arguments.admin_user is defined %}{{ arguments.admin_user }}{% endif %}" required />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="admin_password" class="col-sm-4 col-form-label">Password</label>
+            <div class="col-sm-8">
+                <input name="admin_password" id="admin_password" class="form-control" type="password" value="{% if arguments.admin_password is defined %}{{ arguments.admin_password }}{% endif %}" required />
+            </div>
+        </div>
+
+        <input name="submit" type="hidden" value="1">
+
+        <br/>
+        <button type="submit" class="btn btn-primary btn-block">Finish install process</button>
+        <br/>
+        <br/>
+
+    </form>
+{%  endblock %}

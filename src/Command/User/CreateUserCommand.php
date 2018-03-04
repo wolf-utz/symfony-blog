@@ -1,40 +1,29 @@
 <?php
-/***************************************************************
- *  Copyright notice
+/**
+ * Copyright (c) 2018 Wolf Utz <wpu@hotmail.de>
  *
- *  (c) 2018 Wolf Utz <utz@riconet.de>, riconet
- *      Created on: 03.03.18 21:34
+ * This file is part of the OmegaBlog project.
  *
- *  All rights reserved
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace App\Command\User;
 
-use App\Entity\User;
+use App\Factory\UserFactory;
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class CreateUserCommand.
@@ -42,9 +31,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class CreateUserCommand extends Command
 {
     /**
-     * @var null|UserPasswordEncoderInterface
+     * @var UserFactory|null
      */
-    private $encoder = null;
+    private $userFactory = null;
 
     /**
      * @var UserRepository|null
@@ -54,12 +43,13 @@ class CreateUserCommand extends Command
     /**
      * CreateUserCommand constructor.
      *
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserFactory    $userFactory
+     * @param UserRepository $userRepository
      */
-    public function __construct(UserPasswordEncoderInterface $encoder, UserRepository $userRepository)
+    public function __construct(UserFactory $userFactory, UserRepository $userRepository)
     {
         parent::__construct();
-        $this->encoder = $encoder;
+        $this->userFactory = $userFactory;
         $this->userRepository = $userRepository;
     }
 
@@ -89,7 +79,7 @@ class CreateUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $user = $this->buildUser(
+        $user = $this->userFactory->build(
             $input->getArgument('username'),
             $input->getArgument('password'),
             $input->getArgument('email')
@@ -101,26 +91,5 @@ class CreateUserCommand extends Command
             $io->error('Failed to created a new user!');
             $io->error($e->getMessage());
         }
-    }
-
-    /**
-     * Builds a new user object.
-     *
-     * @param string $username
-     * @param string $password
-     * @param string $email
-     *
-     * @return User
-     */
-    protected function buildUser(string $username, string $password, string $email)
-    {
-        $user = new User();
-        $user->setHidden(false);
-        $user->setUsername($username);
-        $user->setPlainPassword($password);
-        $user->setEmail($email);
-        $user->setPassword($this->encoder->encodePassword($user, $password));
-
-        return $user;
     }
 }

@@ -34,8 +34,13 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
 }
 
 $kernel = new Kernel($env, $debug);
-$kernel = new CacheKernel($kernel);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
-$response->send();
+
+if(file_exists(__DIR__.'/../INSTALL')) {
+    $install = new \App\Install($request, $kernel->getContainer());
+    $install->run();
+} else {
+    $response->send();
+}
 $kernel->terminate($request, $response);
