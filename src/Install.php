@@ -76,8 +76,6 @@ class Install
 
     /**
      * Handles the request.
-     *
-     * @throws Exception\WrongEntityClassException
      */
     private function handleRequest()
     {
@@ -86,12 +84,21 @@ class Install
             return;
         }
         if ($this->checkDatabaseConnection($arguments)) {
-            $this->createDatabaseSchema();
-            $this->createAdminUser($arguments);
-            $this->saveBlogData($arguments);
-            $this->markSystemAsInstalled();
-            echo $this->redirectToRoute('backend_index');
-            exit();
+            try
+            {
+                $this->saveBlogData($arguments);
+                $this->createDatabaseSchema();
+                $this->createAdminUser($arguments);
+                $this->markSystemAsInstalled();
+                echo $this->redirectToRoute('backend_index');
+                exit();
+            }
+            catch(\Exception $e)
+            {
+                $this->addFlash('danger', $e->getMessage());
+                echo $this->redirectToRoute('backend_index');
+                exit();
+            }
         }
     }
 
@@ -154,11 +161,22 @@ class Install
      * Saves the blog data.
      *
      * @param array $arguments
+     *
+     * @throws \Exception
      */
     private function saveBlogData(array $arguments)
     {
         /** @var ConfigurationService $configurationService */
         $configurationService = $this->kernel->getContainer()->get(ConfigurationService::class);
+        $configurationService->initializeConfigurationFile();
+        try
+        {
+            $configurationService->initializeConfigurationFile();
+        }
+        catch(\Exception $e)
+        {
+            $this->addFlash('danger', $e->getMessage());
+        }
         $newConfiguration = $configurationService->getConfiguration();
         $newConfiguration['title'] = $arguments['blog_title'];
         $newConfiguration['description'] = $arguments['blog_description'];
@@ -166,7 +184,6 @@ class Install
         if ($arguments['blog_vendor']) {
             $newConfiguration['vendor'] = $arguments['blog_vendor'];
         }
-
         $configurationService->updateConfiguration($newConfiguration);
     }
 

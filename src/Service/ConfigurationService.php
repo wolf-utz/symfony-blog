@@ -88,4 +88,19 @@ class ConfigurationService
     {
         return $this->container->get('kernel')->getRootDir().'/../config/blog.yaml';
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function initializeConfigurationFile()
+    {
+        if(file_exists($this->getConfigurationFilePath())) {
+            throw new \Exception(
+                "The configuration file for the blog already exist. Call this method only while you fresh install the blog",
+                1520350395
+            );
+        }
+
+        copy($this->getConfigurationFilePath().'.dist', $this->getConfigurationFilePath());
+    }
 }
