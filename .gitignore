@@ -19,3 +19,4 @@
 /._.DS_Store
 /plugins/
 /public/template/
+/config/blog.yaml

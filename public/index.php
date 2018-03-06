@@ -38,7 +38,7 @@ $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 
 if(file_exists(__DIR__.'/../INSTALL')) {
-    $install = new \App\Install($request, $kernel->getContainer());
+    $install = new \App\Install($kernel, $request, $kernel->getContainer());
     $install->run();
 } else {
     $response->send();
