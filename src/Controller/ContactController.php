@@ -21,7 +21,7 @@ use App\Entity\ContactRequest;
 use App\Form\ContactRequestType;
 use App\Repository\ContactRequestRepository;
 use App\Service\ConfigurationService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use ReCaptcha\ReCaptcha;

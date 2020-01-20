@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace App\Controller\Backend;
 
 use App\Service\ConfigurationService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 

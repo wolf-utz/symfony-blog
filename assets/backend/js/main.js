@@ -9,4 +9,7 @@ require('tinymce/themes/modern/theme')
 require('tinymce/plugins/paste')
 require('tinymce/plugins/link')
 require('./tinymce_init')(tinymce)
-TagsInput.refresh()
+if (TagsInput !== undefined) {
+  TagsInput.refresh()
+}
+

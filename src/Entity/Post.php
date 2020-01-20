@@ -55,7 +55,6 @@ class Post extends AbstractEntity
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank()
      *
      * @var string
      */

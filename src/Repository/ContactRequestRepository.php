@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2018 Wolf Utz <wpu@hotmail.de>
+ * Copyright (c) 2018 Wolf Utz <wpu@hotmail.de>.
  *
  * This file is part of the OmegaBlog project.
  *
@@ -19,20 +19,11 @@ namespace App\Repository;
 
 use App\Entity\ContactRequest;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class ContactRequestRepository.
- */
 class ContactRequestRepository extends AbstractRespoitory
 {
-    /**
-     * PostRepository constructor.
-     *
-     * @param RegistryInterface      $registry
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, $em, ContactRequest::class);
     }

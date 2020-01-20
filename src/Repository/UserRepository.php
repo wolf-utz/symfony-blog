@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2018 Wolf Utz <wpu@hotmail.de>
+ * Copyright (c) 2018 Wolf Utz <wpu@hotmail.de>.
  *
  * This file is part of the OmegaBlog project.
  *
@@ -20,22 +20,13 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class UserRepository.
- */
 class UserRepository extends AbstractRespoitory
 {
     use PaginateableRepositoryTrait;
 
-    /**
-     * PostRepository constructor.
-     *
-     * @param RegistryInterface      $registry
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, $em, User::class);
     }
@@ -49,7 +40,7 @@ class UserRepository extends AbstractRespoitory
     public function findAllEvenHiddenPaginated($currentPage = 1, $limit = 5)
     {
         /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = $this->createQueryBuilder("u");
+        $queryBuilder = $this->createQueryBuilder('u');
         $queryBuilder->getQuery();
 
         return $this->paginate($queryBuilder, $currentPage, $limit);

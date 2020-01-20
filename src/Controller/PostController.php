@@ -23,7 +23,7 @@ use App\Exception\ConfigurationNotFoundException;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
 use App\Service\ConfigurationService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -105,7 +105,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/post/{slug}", name="post_show")
+     * @Route("/{slug}", name="post_show")
      *
      * @ParamConverter("post", class="App\Entity\Post")
      *
