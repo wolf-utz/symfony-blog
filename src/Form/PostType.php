@@ -107,7 +107,8 @@ class PostType extends AbstractType
                 [
                     'label' => 'The teaser (If empty, a crop of the body gets displayed instead)',
                     'attr' => ['class' => 'form-control', 'rows' => 4],
-                    'required' => false
+                    'required' => false,
+                    'empty_data' => ""
                 ]
             )
             ->add(
@@ -115,7 +116,9 @@ class PostType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => 'The content of the post',
-                    'attr' => ['class' => 'rte form-control', 'rows' => 10]
+                    'attr' => ['class' => 'rte form-control', 'rows' => 10],
+                    'required' => false,
+                    'empty_data' => ""
                 ]
             )
         ;

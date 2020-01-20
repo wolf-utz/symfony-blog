@@ -20,7 +20,7 @@ namespace App\Repository;
 use App\Exception\WrongEntityClassException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class AbstractRespoitory.
@@ -40,11 +40,11 @@ class AbstractRespoitory extends ServiceEntityRepository
     /**
      * PostRepository constructor.
      *
-     * @param RegistryInterface      $registry
+     * @param ManagerRegistry      $registry
      * @param EntityManagerInterface $em
      * @param string                 $class
      */
-    public function __construct(RegistryInterface $registry, EntityManagerInterface $em, string $class = "")
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em, string $class = "")
     {
         parent::__construct($registry, $class);
         $this->em = $em;

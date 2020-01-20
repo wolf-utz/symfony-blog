@@ -1,3 +1,3 @@
 require('../css/main.scss')
 
-require('bootstrap')()
+require('bootstrap')

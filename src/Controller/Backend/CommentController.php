@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace App\Controller\Backend;
 
 use App\Repository\PostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -48,6 +48,7 @@ class CommentController extends Controller
      */
     public function list()
     {
+        //@TODO: Add logic...
         return $this->render('backend/comment/list.html.twig', []);
     }
 }

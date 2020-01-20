@@ -20,3 +20,7 @@
 /plugins/
 /public/template/
 /config/blog.yaml
+.php_cs.cache
+.database
+.idea/
+docker-compose.yml
