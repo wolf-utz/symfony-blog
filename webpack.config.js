@@ -1,5 +1,5 @@
-var CopyWebpackPlugin = require('copy-webpack-plugin')
-var Encore = require('@symfony/webpack-encore')
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var Encore = require('@symfony/webpack-encore');
 Encore.setOutputPath('public/build/').
   setPublicPath('/build').
   addEntry('global', './assets/global/js/main.js').
@@ -10,11 +10,9 @@ Encore.setOutputPath('public/build/').
   cleanupOutputBeforeBuild().
   enableBuildNotifications().
   autoProvidejQuery().
-  addPlugin(new CopyWebpackPlugin([
-    // Copy the skins from tinymce to the build/skins directory
-    { from: 'node_modules/tinymce/skins', to: 'skins' },
-  ])).autoProvideVariables({
-  Tether: 'tether',
-})
+  copyFiles({ from: 'node_modules/tinymce/skins', to: 'skins/[path][name].[ext]' }).
+  autoProvideVariables({
+    Tether: 'tether'
+  });
 
-module.exports = Encore.getWebpackConfig()
+module.exports = Encore.getWebpackConfig();
