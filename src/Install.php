@@ -138,7 +138,7 @@ class Install
      * Creates an admin user.
      *
      * @param array $arguments
-     *
+     *xx
      * @throws Exception\WrongEntityClassException
      */
     private function createAdminUser(array $arguments)

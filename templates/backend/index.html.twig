@@ -13,9 +13,9 @@
 {% block body %}
     <div class="row">
     {% for module in modules %}
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12 module-wrapper">
+        <div class="col-12 col-md-12 col-lg-6 col-xl-4 module-wrapper">
             <div class="card">
-                <div class="card-block">
+                <div class="card-body">
                     <i class="fa fa-{{ module.icon }} fa-module-icon pull-right" aria-hidden="true"></i>
                     <h4 class="card-title">{{ module.title }}</h4>
                     <p class="card-text">{{ module.description }}</p>

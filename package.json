@@ -1,12 +1,12 @@
 {
   "devDependencies": {
-    "@symfony/webpack-encore": "^0.28.2",
+    "@symfony/webpack-encore": "^0.31.0",
     "less": "^2.7.3",
-    "less-loader": "^4.0.5",
-    "node-sass": "^4.13.1",
-    "sass-loader": "^6.0.6",
-    "webpack": "^3.10.0",
-    "webpack-notifier": "^1.5.1"
+    "less-loader": "^6.2.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^9.0.1",
+    "webpack": "^4.8.3",
+    "webpack-notifier": "^1.8.0"
   },
   "license": "UNLICENSED",
   "private": true,
@@ -17,13 +17,14 @@
     "build": "encore production"
   },
   "dependencies": {
-    "@fancyapps/fancybox": "^3.2.5",
-    "bootstrap": "^4.0.0-alpha.6",
-    "copy-webpack-plugin": "^4.4.1",
+    "@fancyapps/fancybox": "^3.5.7",
+    "bootstrap": "^4.5.2",
+    "copy-webpack-plugin": "^4.6.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "jquery-parallax.js": "^1.5.0",
-    "tether": "^1.4.3",
-    "tinymce": "^4.7.6"
+    "popper.js": "^1.16.1",
+    "tether": "^1.4.7",
+    "tinymce": "^4.9.11"
   }
 }
