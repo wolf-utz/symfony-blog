@@ -86,7 +86,7 @@ class ConfigurationService
      */
     private function getConfigurationFilePath(): string
     {
-        return $this->container->get('kernel')->getRootDir().'/../config/blog.yaml';
+        return $this->container->get('kernel')->getProjectDir().'/config/blog.yaml';
     }
 
     /**

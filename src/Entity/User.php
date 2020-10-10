@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Serializable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User extends AbstractEntity implements AdvancedUserInterface, \Serializable
+class User extends AbstractEntity implements Serializable
 {
     /**
      * @ORM\Column(type="string", length=30)

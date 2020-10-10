@@ -23,17 +23,13 @@ use App\Service\ConfigurationService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Psr\Container\ContainerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-/**
- * Class Install.
- */
-class Install
+class Install extends AbstractController
 {
-    use ControllerTrait;
-
     /**
      * @var null|KernelInterface
      */
@@ -44,22 +40,10 @@ class Install
      */
     private $request = null;
 
-    /**
-     * @var null|ContainerInterface
-     */
-    private $container = null;
-
-    /**
-     * Install constructor.
-     *
-     * @param Request            $request
-     * @param ContainerInterface $container
-     */
-    public function __construct(KernelInterface $kernel, Request $request, ContainerInterface $container)
+    public function __construct(KernelInterface $kernel, RequestStack $requestStack)
     {
         $this->kernel = $kernel;
-        $this->request = $request;
-        $this->container = $container;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
     /**

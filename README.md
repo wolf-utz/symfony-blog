@@ -1,4 +1,4 @@
-# A simple Symfony 4 blog
+# A simple Symfony 5 blog
 
 ## How to install
 * clone the repository
