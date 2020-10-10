@@ -21,7 +21,7 @@ use App\Entity\Post;
 use App\Entity\Tag;
 use App\Form\TagType;
 use App\Repository\TagRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;

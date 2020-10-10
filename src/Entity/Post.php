@@ -61,7 +61,7 @@ class Post extends AbstractEntity
     private $body = "";
 
     /**
-     * @ManyToMany(targetEntity="App\Entity\Tag",cascade={"persist"})
+     * @ManyToMany(targetEntity="App\Entity\Tag",cascade={"persist"}, inversedBy="posts")
      * @JoinTable(name="post_tag_mm",
      *      joinColumns={@JoinColumn(name="post_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="tag_id", referencedColumnName="id")}
